@@ -1,0 +1,14 @@
+{
+  "name": "Stablecoin",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "cd frontendnew && npm run dev",
+    "check-permissions": "node scripts/check-shib-permissions.js",
+    "bot:doge-shib": "node scripts/doge-shib-bot.js"
+  },
+  "dependencies": {
+    "@pancakeswap-libs/sdk": "^1.0.1",
+    "dotenv": "^17.2.2",
+    "ethers": "^5.7.0"
+  }
+}

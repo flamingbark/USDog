@@ -1,0 +1,37 @@
+type Vault @entity(immutable: true) {
+  id: ID!
+  owner: Bytes!
+  collateral: BigInt!
+  debt: BigInt!
+  collateralType: Bytes!
+  createdAt: BigInt!
+  modifiedAt: BigInt!
+}
+
+type Liquidation @entity(immutable: true) {
+  id: ID!
+  vaultId: Bytes!
+  owner: Bytes!
+  collateral: BigInt!
+  debt: BigInt!
+  startedAt: BigInt!
+  status: String!
+}
+
+type Transfer @entity(immutable: true) {
+  id: ID!
+  from: Bytes!
+  to: Bytes!
+  value: BigInt!
+  timestamp: BigInt!
+}
+
+type Auction @entity(immutable: true) {
+  id: ID!
+  vaultId: Bytes!
+  collateral: BigInt!
+  debt: BigInt!
+  startedAt: BigInt!
+  bid: BigInt!
+  bidder: Bytes!
+}

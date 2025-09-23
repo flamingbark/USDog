@@ -1,0 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@import "tailwindcss";
+@import "tw-animate-css";
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-background: #f3f1f7;
+  --color-foreground: #2c2c2c;
+
+  --color-card: #ffffff;
+  --color-card-foreground: #2c2c2c;
+
+  --color-popover: #ffffff;
+  --color-popover-foreground: #2c2c2c;
+
+  --color-primary: #ffd700;
+  --color-primary-foreground: #2c2c2c;
+
+  --color-secondary: #4CAF50;
+  --color-secondary-foreground: #ffffff;
+
+  --color-muted: #f5f5f5;
+  --color-muted-foreground: #666666;
+
+  --color-accent: #ffd700;
+  --color-accent-foreground: #2c2c2c;
+
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #fafafa;
+
+  --color-border: #e5e5e5;
+  --color-input: #e5e5e5;
+  --color-ring: #0a0a0a;
+
+  --color-chart-1: #e67e22;
+  --color-chart-2: #2d8659;
+  --color-chart-3: #1e3a5f;
+  --color-chart-4: #f1c40f;
+  --color-chart-5: #e74c3c;
+
+  --radius-lg: 1rem;
+  --radius-md: calc(1rem - 2px);
+  --radius-sm: calc(1rem - 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+
+  --color-header-background: #ffffff;
+  --color-text-primary: #2c2c2c;
+  --color-text-secondary: #666666;
+  --color-border-card: #e5e5e5; /* rgba(0, 0, 0, 0.1) is too transparent for a solid hex */
+  --color-alert-background: #fff3cd;
+  --color-gradient-start: #e8f5e8;
+  --color-gradient-middle: #f0f0ff;
+  --color-gradient-end: #ffe8e8;
+
+  --font-logo: "Inter", sans-serif;
+  --font-navigation: "Inter", sans-serif;
+  --font-hero-title: "Inter", sans-serif;
+  --font-section-headers: "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-price: "Inter", monospace;
+  --font-button: "Inter", sans-serif;
+  --font-ticker: "Inter", sans-serif;
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border);
+  }
+}
+
+@layer utilities {
+  body {
+    font-family: var(--font-body);
+  }
+}
+
+@layer base {
+  :root {
+    --background: var(--color-background);
+    --foreground: var(--color-foreground);
+    --card: var(--color-card);
+    --card-foreground: var(--color-card-foreground);
+    --popover: var(--color-popover);
+    --popover-foreground: var(--color-popover-foreground);
+    --primary: var(--color-primary);
+    --primary-foreground: var(--color-primary-foreground);
+    --secondary: var(--color-secondary);
+    --secondary-foreground: var(--color-secondary-foreground);
+    --muted: var(--color-muted);
+    --muted-foreground: var(--color-muted-foreground);
+    --accent: var(--color-accent);
+    --accent-foreground: var(--color-accent-foreground);
+    --destructive: var(--color-destructive);
+    --destructive-foreground: var(--color-destructive-foreground);
+    --border: var(--color-border);
+    --input: var(--color-input);
+    --ring: var(--color-ring);
+    --chart-1: var(--color-chart-1);
+    --chart-2: var(--color-chart-2);
+    --chart-3: var(--color-chart-3);
+    --chart-4: var(--color-chart-4);
+    --chart-5: var(--color-chart-5);
+    --radius: var(--radius-lg);
+
+    /* Additional design system colors */
+    --header-background: var(--color-header-background);
+    --text-primary: var(--color-text-primary);
+    --text-secondary: var(--color-text-secondary);
+    --border-card: var(--color-border-card);
+    --alert-background: var(--color-alert-background);
+    --gradient-start: var(--color-gradient-start);
+    --gradient-middle: var(--color-gradient-middle);
+    --gradient-end: var(--color-gradient-end);
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  h1 {
+    font-family: var(--font-hero-title);
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  h2 {
+    font-family: var(--font-section-headers);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  p {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-secondary);
+  }
+
+  .font-logo {
+    font-family: var(--font-logo);
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .font-navigation {
+    font-family: var(--font-navigation);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .font-price {
+    font-family: var(--font-price);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .font-button {
+    font-family: var(--font-button);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .font-ticker {
+    font-family: var(--font-ticker);
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Hide Next.js error overlay portal */
+nextjs-portal {
+  display: none !important;
+}

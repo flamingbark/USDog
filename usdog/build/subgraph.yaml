@@ -1,0 +1,83 @@
+specVersion: 0.0.5
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Vat
+    network: bsc
+    source:
+      abi: Vat
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Vault
+        - Liquidation
+      abis:
+        - name: Vat
+          file: Vat\Vat.json
+      eventHandlers:
+        - event: LogNote(indexed bytes4,indexed address,indexed bytes32,indexed bytes32,bytes)
+          handler: handleLogNote
+      file: Vat\Vat.wasm
+  - kind: ethereum
+    name: Dog
+    network: bsc
+    source:
+      abi: Dog
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Liquidation
+      abis:
+        - name: Dog
+          file: Dog\Dog.json
+      eventHandlers:
+        - event: Bark(indexed bytes32,indexed address,uint256,uint256,uint256,address,indexed
+            uint256)
+          handler: handleBark
+      file: Vat\Vat.wasm
+  - kind: ethereum
+    name: StableCoin
+    network: bsc
+    source:
+      abi: StableCoin
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Transfer
+      abis:
+        - name: StableCoin
+          file: StableCoin\StableCoin.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: Vat\Vat.wasm
+templates:
+  - kind: ethereum/contract
+    name: Clip
+    network: bsc
+    source:
+      abi: Clip
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Auction
+      abis:
+        - name: Clip
+          file: Clip\Clip.json
+      eventHandlers:
+        - event: Kick(indexed uint256,uint256,uint256,uint256,indexed address,indexed
+            address,uint256)
+          handler: handleKick
+      file: Vat\Vat.wasm
