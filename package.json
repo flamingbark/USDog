@@ -6,7 +6,8 @@
     "docs": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generate-docs.ps1",
     "docs:serve": "start http://localhost:3000/doxygen/html/index.html",
     "check-permissions": "node scripts/check-shib-permissions.js",
-    "bot:doge-shib": "node scripts/doge-shib-bot.js"
+    "bot:doge-shib": "node scripts/doge-shib-bot.js",
+    "prepare": "husky"
   },
   "dependencies": {
     "@api3/contracts": "^27.0.0",
@@ -16,6 +17,7 @@
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.2.3",
     "ethers": "^5.8.0",
-    "hardhat": "^2.26.3"
+    "hardhat": "^2.26.3",
+    "lint-staged": "^16.2.1"
   }
 }
