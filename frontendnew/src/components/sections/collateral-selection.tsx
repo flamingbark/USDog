@@ -1,27 +1,36 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useAccount, useReadContract, useDisconnect } from 'wagmi';
+import { useAccount, useReadContract } from 'wagmi';
 import { ethers } from 'ethers';
 import { useStablecoin } from '@/hooks/useStablecoin';
 import { CONTRACT_ADDRESSES, ILK_DOGE, ILK_SHIB } from '@/lib/contracts';
 import { useChainId } from 'wagmi';
 
-const CollateralSelection = () => {
+interface CollateralSelectionProps {
+  initialCollateral?: 'DOGE' | 'SHIB'
+}
+
+const CollateralSelection = ({ initialCollateral }: CollateralSelectionProps) => {
   const { address, isConnected, chainId: walletChainId } = useAccount();
-  const { disconnect } = useDisconnect();
   const appChainId = useChainId();
   const addresses = appChainId === 56 ? CONTRACT_ADDRESSES.bsc : CONTRACT_ADDRESSES.bscTestnet;
 
-  const [selectedCollateral, setSelectedCollateral] = useState<'DOGE' | 'SHIB'>('SHIB');
+  const [selectedCollateral, setSelectedCollateral] = useState<'DOGE' | 'SHIB'>(initialCollateral ?? 'SHIB');
+
+  // Ensure selection follows initialCollateral even if it becomes available after first render
+  useEffect(() => {
+    if (initialCollateral && initialCollateral !== selectedCollateral) {
+      setSelectedCollateral(initialCollateral);
+    }
+  }, [initialCollateral]);
+
   const [depositAmount, setDepositAmount] = useState('');
   const [lockAmount, setLockAmount] = useState('');
   const [unlockAmount, setUnlockAmount] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState('');
   const [mintAmount, setMintAmount] = useState('');
   const [repayAmount, setRepayAmount] = useState('');
-  const [withdrawUSDogAmount, setWithdrawUSDogAmount] = useState('');
-  const [debugInfo, setDebugInfo] = useState<string>('');
   
   // Individual loading states for each operation
   const [isApproving, setIsApproving] = useState(false);
@@ -32,7 +41,6 @@ const CollateralSelection = () => {
   const [isMinting, setIsMinting] = useState(false);
   const [isRepaying, setIsRepaying] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState(false);
-  const [isWithdrawingUSDog, setIsWithdrawingUSDog] = useState(false);
 
   // Use the stablecoin hook with selected collateral
   const {
@@ -45,7 +53,6 @@ const CollateralSelection = () => {
     unlockCollateral,
     generateStablecoin,
     generateAndSendStablecoin,
-    withdrawStablecoin,
     repayStablecoin,
     withdrawCollateral,
     isPending,
@@ -66,6 +73,7 @@ const CollateralSelection = () => {
     ],
     functionName: 'balanceOf',
     args: address ? [address as `0x${string}`] : undefined,
+    query: { refetchInterval: 5000, refetchOnWindowFocus: true },
   });
 
   const { data: tokenBalance, isLoading: tokenLoading, error: tokenError } = useReadContract({
@@ -81,6 +89,7 @@ const CollateralSelection = () => {
     ],
     functionName: 'balanceOf',
     args: address ? [address as `0x${string}`] : undefined,
+    query: { refetchInterval: 5000, refetchOnWindowFocus: true },
   });
 
   const { data: collateralBalance } = useReadContract({
@@ -99,6 +108,7 @@ const CollateralSelection = () => {
     ],
     functionName: 'gem',
     args: address ? [selectedCollateral === 'DOGE' ? ILK_DOGE as `0x${string}` : ILK_SHIB as `0x${string}`, address as `0x${string}`] : undefined,
+    query: { refetchInterval: 5000, refetchOnWindowFocus: true },
   });
 
   // Read Vat.ilks for current collateral to compute safe mint limit precisely
@@ -122,6 +132,7 @@ const CollateralSelection = () => {
     ],
     functionName: 'ilks',
     args: [currentIlkBytes],
+    query: { refetchInterval: 5000, refetchOnWindowFocus: true },
   });
 
   // Read raw urns(ilk, user) to avoid precision loss from format/parse round-trip
@@ -138,6 +149,7 @@ const CollateralSelection = () => {
     ],
     functionName: 'urns',
     args: address ? [currentIlkBytes, address as `0x${string}`] : undefined,
+    query: { refetchInterval: 5000, refetchOnWindowFocus: true },
   });
 
   // Create wrapper functions for specific collateral types with refresh
@@ -201,23 +213,6 @@ const CollateralSelection = () => {
     }
   }, [selectedCollateral, refetchData]);
 
-  // Debug logging
-  useEffect(() => {
-    const debug = {
-      isConnected,
-      address,
-      walletChainId,
-      appChainId,
-      addresses,
-      selectedCollateral,
-      usdogBalance: usdogBalance?.toString(),
-      tokenBalance: tokenBalance?.toString(),
-      usdogError: usdogError?.message,
-      tokenError: tokenError?.message,
-    };
-    setDebugInfo(JSON.stringify(debug, null, 2));
-    console.log('Debug info:', debug);
-  }, [isConnected, address, walletChainId, appChainId, addresses, selectedCollateral, usdogBalance, tokenBalance, usdogError, tokenError]);
 
   const formatBalance = (balance: bigint | undefined, decimals: number = 18) => {
     if (!balance) return '0.00';
@@ -277,6 +272,42 @@ const CollateralSelection = () => {
       if (additionalWad <= 0n) return '0';
 
       const value = Number(ethers.formatUnits(additionalWad, 18));
+      return selectedCollateral === 'SHIB'
+        ? value.toFixed(6).replace(/\.?0+$/, '')
+        : value.toFixed(4).replace(/\.?0+$/, '');
+    } catch {
+      return '0';
+    }
+  };
+
+  // Calculate max safe unlock from current state:
+  // Must maintain: rate * art <= (ink - unlock) * spot
+  // => minInkRequired = ceil(rate * art / spot)
+  // => maxUnlock = max(0, ink - minInkRequired), with small safety buffer
+  const calculateMaxSafeUnlock = () => {
+    try {
+      if (!ilkData || !urnRaw) return '0';
+
+      const inkWad = BigInt((urnRaw as any)[0]?.toString() ?? '0'); // [wad]
+      const artWad = BigInt((urnRaw as any)[1]?.toString() ?? '0'); // [wad]
+      const rateRay = BigInt((ilkData as any)[1]?.toString() ?? '0'); // [ray]
+      const spotRay = BigInt((ilkData as any)[2]?.toString() ?? '0'); // [ray]
+
+      if (inkWad === 0n) return '0';
+      if (artWad === 0n || rateRay === 0n || spotRay === 0n) {
+        const value = Number(ethers.formatUnits(inkWad, 18));
+        return selectedCollateral === 'SHIB'
+          ? value.toFixed(6).replace(/\.?0+$/, '')
+          : value.toFixed(4).replace(/\.?0+$/, '');
+      }
+
+      const minInkRequired = (rateRay * artWad + (spotRay - 1n)) / spotRay; // ceil
+      let maxUnlockWad = inkWad > minInkRequired ? (inkWad - minInkRequired) : 0n;
+
+      // 0.5% buffer
+      maxUnlockWad = (maxUnlockWad * 995n) / 1000n;
+
+      const value = Number(ethers.formatUnits(maxUnlockWad, 18));
       return selectedCollateral === 'SHIB'
         ? value.toFixed(6).replace(/\.?0+$/, '')
         : value.toFixed(4).replace(/\.?0+$/, '');
@@ -371,9 +402,17 @@ const CollateralSelection = () => {
 
       const lockedAmount = parseFloat(ink);
       const requestedUnlock = parseFloat(unlockAmount);
-      
+
       if (requestedUnlock > lockedAmount) {
         alert(`⚠️ Unlock amount too high! You only have ${formatBalance(BigInt(Math.floor(lockedAmount * 1e18)), 18)} ${selectedCollateral} locked.`);
+        return;
+      }
+
+      // Strict safety check using on-chain invariants to avoid Vat/not-safe
+      const maxSafeUnlockStr = calculateMaxSafeUnlock();
+      const maxSafeUnlock = parseFloat(maxSafeUnlockStr);
+      if (requestedUnlock > maxSafeUnlock) {
+        alert(`❌ Unlock would make the vault unsafe.\n\nMax safe unlock: ${maxSafeUnlockStr} ${selectedCollateral}\nTip: Repay some USDog first, or unlock a smaller amount.`);
         return;
       }
 
@@ -522,23 +561,6 @@ const CollateralSelection = () => {
     }
   };
 
-  const handleWithdrawUSDog = async () => {
-    if (!withdrawUSDogAmount) return;
-
-    setIsWithdrawingUSDog(true);
-    try {
-      console.log("💰 Withdrawing USDog to wallet...");
-      await withdrawStablecoin(withdrawUSDogAmount);
-      setWithdrawUSDogAmount('');
-      console.log("✅ USDog withdrawal successful!");
-      alert("USDog transferred to your wallet!");
-    } catch (error: any) {
-      console.error('❌ USDog withdrawal failed:', error);
-      alert(`USDog withdrawal failed: ${error.message || 'Unknown error'}. Check console for details.`);
-    } finally {
-      setIsWithdrawingUSDog(false);
-    }
-  };
 
   // Show connection status
   if (!isConnected) {
@@ -572,33 +594,7 @@ const CollateralSelection = () => {
   return (
     <div className="w-full max-w-[732px] mx-auto p-6 bg-white/60 rounded-2xl border border-black/10 shadow-[0_4px_20px_rgba(0,0,0,0.08)] backdrop-blur-sm">
       <div className="space-y-6">
-        {/* Connection Status */}
-        <div className="bg-green-50 p-3 rounded-lg border border-green-200 flex justify-between items-center">
-          <p className="text-sm text-green-800">
-            ✅ Connected: {address?.slice(0, 6)}...{address?.slice(-4)} on {appChainId === 56 ? 'BSC Mainnet' : 'BSC Testnet'}
-          </p>
-          <button
-            onClick={() => disconnect()}
-            className="px-3 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600"
-          >
-            Disconnect
-          </button>
-        </div>
 
-        {/* System Status */}
-        <div className="bg-green-50 p-3 rounded-lg border border-green-200">
-          <p className="text-sm text-green-800 font-medium">✅ System Status</p>
-          <p className="text-xs text-green-700 mt-1">
-            Price feeds are configured and active. DOGE and SHIB deposits should work normally.
-            If you get mint errors, you may need to authorize the system first.
-          </p>
-        </div>
-
-        {/* Debug Info */}
-        <details className="bg-gray-50 p-3 rounded-lg border border-gray-200">
-          <summary className="text-sm font-medium text-gray-700 cursor-pointer">Debug Info</summary>
-          <pre className="text-xs text-gray-600 mt-2 whitespace-pre-wrap">{debugInfo}</pre>
-        </details>
 
         {/* Collateral Selection */}
         <div>
@@ -654,13 +650,19 @@ const CollateralSelection = () => {
               <div className="bg-white/60 p-3 rounded-lg">
                 <p className="text-gray-600 mb-1">Locked Collateral</p>
                 <p className="font-bold text-lg text-indigo-700">
-                  {formatBalance(BigInt(Math.floor(parseFloat(ink) * 1e18)), 18)} {selectedCollateral}
+                  {(() => {
+                    const v = BigInt((urnRaw as any)?.[0]?.toString() ?? '0');
+                    return formatBalance(v, 18);
+                  })()} {selectedCollateral}
                 </p>
               </div>
               <div className="bg-white/60 p-3 rounded-lg">
                 <p className="text-gray-600 mb-1">Outstanding Debt</p>
                 <p className="font-bold text-lg text-purple-700">
-                  {formatBalance(BigInt(Math.floor(parseFloat(art) * 1e18)), 18)} USDog
+                  {(() => {
+                    const v = BigInt((urnRaw as any)?.[1]?.toString() ?? '0');
+                    return formatBalance(v, 18);
+                  })()} USDog
                 </p>
               </div>
               <div className="bg-white/60 p-3 rounded-lg">
@@ -817,7 +819,7 @@ const CollateralSelection = () => {
                 </button>
               </div>
               {ink === '0' && (
-                <p className="text-xs text-red-600 mt-1">
+                < p className="text-xs text-red-600 mt-1">
                   ⚠️ Lock collateral first before minting
                 </p>
               )}
@@ -854,32 +856,6 @@ const CollateralSelection = () => {
               )}
             </div>
           </div>
-        </div>
-
-        {/* 4. Withdraw USDog to Wallet */}
-        <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-          <h4 className="font-semibold mb-3 text-green-800">💰 Withdraw USDog</h4>
-          <p className="text-sm text-green-700 mb-3">Transfer minted USDog from Vat to your wallet as ERC20 tokens</p>
-          
-          <div className="flex gap-2">
-            <input
-              type="number"
-              placeholder="Amount of USDog to withdraw"
-              value={withdrawUSDogAmount}
-              onChange={(e) => setWithdrawUSDogAmount(e.target.value)}
-              className="flex-1 px-3 py-2 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-            <button
-              onClick={handleWithdrawUSDog}
-              disabled={isWithdrawingUSDog || !withdrawUSDogAmount}
-              className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:opacity-50"
-            >
-              {isWithdrawingUSDog ? 'Withdrawing...' : 'Withdraw USDog'}
-            </button>
-          </div>
-          <p className="text-xs text-green-600 mt-1">
-            💡 After minting, USDog exists in the Vat system. Use this to get actual USDog tokens in your wallet.
-          </p>
         </div>
 
         {/* 5. Withdraw Collateral to Wallet */}

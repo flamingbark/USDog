@@ -39,7 +39,7 @@ async function main() {
     stablecoin: "0xb1abd2a64b829596d7afefca31a6c984b5afaafb",
   };
 
-  const ILK = ethers.encodeBytes32String(ILK_NAME);
+  const ILK = ethers.utils.formatBytes32String(ILK_NAME);
   const vat = await ethers.getContractAt("Vat", addresses.vat, signer);
   const dog = await ethers.getContractAt("Dog", addresses.dog, signer);
   const spot = await ethers.getContractAt("Spot", addresses.spot, signer);
@@ -84,7 +84,7 @@ async function main() {
     const newMat = RAY * 5n;
 
     try {
-      const tx1 = await spot["file(bytes32,bytes32,uint256)"](ILK, ethers.encodeBytes32String("mat"), newMat);
+      const tx1 = await spot["file(bytes32,bytes32,uint256)"](ILK, ethers.utils.formatBytes32String("mat"), newMat);
       console.log("spot.file(mat) tx:", tx1.hash);
       await tx1.wait();
 

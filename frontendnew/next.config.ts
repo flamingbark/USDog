@@ -4,7 +4,14 @@ import path from "node:path";
 const LOADER = path.resolve(__dirname, 'src/visual-edits/component-tagger-loader.js');
 
 const nextConfig: NextConfig = {
+  // Generate a fully static site (no Node server required)
+  output: 'export',
+  // Safer for static hosts (S3, CF Pages, etc.)
+  trailingSlash: true,
+
   images: {
+    // next/image optimization is not available on static export
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -16,7 +23,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+
   outputFileTracingRoot: path.resolve(__dirname, '../../'),
+
   turbopack: {
     rules: {
       "*.{jsx,tsx}": {
@@ -24,6 +33,7 @@ const nextConfig: NextConfig = {
       }
     }
   },
+
   webpack: (config) => {
     // Avoid optional deps causing SSR/import errors during build/runtime.
     // These are pulled by wallet SDKs but not needed in web build.

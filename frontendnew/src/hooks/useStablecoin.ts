@@ -397,7 +397,7 @@ export function useStablecoin(selectedCollateral: 'DOGE' | 'SHIB' = 'SHIB') {
     });
   };
 
-  // Repay USDog - join enough USDog (accounting for rate and dust) -> reduce debt via frob(dart < 0)
+  // Repay USDog - robust path that derives safe repay from actual internal dai to avoid under/overflow
   const repayStablecoin = async (amount: string, ilk: string) => {
     if (!address) return Promise.reject('No address');
 
@@ -405,50 +405,47 @@ export function useStablecoin(selectedCollateral: 'DOGE' | 'SHIB' = 'SHIB') {
     console.log('Requested repay (wad):', amount);
     console.log('UI-reported current debt (art):', art);
 
-    // Helper: bounded delay to avoid WalletConnect receipt hangs without RPC waits
-    const waitOrTimeout = async (_hash: `0x${string}` | string, ms: number) => {
-      await new Promise((resolve) => setTimeout(resolve, ms));
-    };
+    // Helper: bounded delay
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-    // Read exact on-chain urn and ilk to avoid rounding issues and handle dust/line/rate precisely
+    // On-chain reads
     const provider = new ethers.BrowserProvider((window as any).ethereum);
     const vat = new ethers.Contract(addresses.vat as string, VAT_ABI as any, provider);
 
     const urn = await vat.urns(ilk, address);
-    const artWad = BigInt(urn[1].toString()); // current debt [wad]
+    let artWad = BigInt(urn[1].toString()); // current debt [wad]
     const ilkData = await vat.ilks(ilk);
     const rateRay = BigInt(ilkData[1].toString()); // [ray]
     const dustRad = BigInt(ilkData[4].toString()); // [rad]
-
     const RAY = 10n ** 27n;
 
-    // Cap repay to outstanding debt to prevent underflow in urn.art update
-    let repayWad = parseEther(amount);
-    if (repayWad > artWad) {
-      console.log(`Adjusting repayWad down from ${repayWad.toString()} to outstanding art ${artWad.toString()}`);
-      repayWad = artWad;
+    // Normalize target repay
+    let targetRepayWad = parseEther(amount);
+    if (targetRepayWad > artWad) {
+      console.log(`Adjust targetRepayWad down from ${targetRepayWad.toString()} to outstanding art ${artWad.toString()}`);
+      targetRepayWad = artWad;
     }
 
     // Dust rule: if resulting debt > 0, resulting tab must be >= dust; otherwise repay full to zero
-    // tabAfter(rad) = rate * (art - repayWad)
-    const tabAfter = rateRay * (artWad - repayWad);
-    if (artWad - repayWad > 0n && dustRad > 0n && tabAfter < dustRad) {
+    // tabAfter(rad) = rate * (art - targetRepayWad)
+    let tabAfter = rateRay * (artWad - targetRepayWad);
+    if (artWad - targetRepayWad > 0n && dustRad > 0n && tabAfter < dustRad) {
       console.log('Repay would leave dusty debt; switching to full repayment.');
-      repayWad = artWad;
+      targetRepayWad = artWad;
     }
 
-    // Compute join amount to fund internal dai for |rate * repayWad|
-    // Need joinWad such that joinWad*1e27 >= rate*repayWad
-    const joinWad = (repayWad * rateRay + (RAY - 1n)) / RAY;
-    const negativeDart = -repayWad;
+    // Compute join amount with headroom
+    let joinWad = (targetRepayWad * rateRay + (RAY - 1n)) / RAY; // ceil(rate*repay / RAY)
+    // Add small buffer to handle rate drift/rounding
+    joinWad += 10n; // +10 wei buffer
 
-    console.log('Final repayWad:', repayWad.toString());
-    console.log('Computed joinWad:', joinWad.toString());
+    console.log('Target repayWad:', targetRepayWad.toString());
+    console.log('Planned joinWad (buffered):', joinWad.toString());
 
-    // 1) Approve USDog spending to DaiJoin so join can burn tokens from wallet
+    // 1) Approve USDog spending to DaiJoin
     try {
       console.log('🔑 Approving USDog -> DaiJoin for repay...');
-      const approveHash = await writeContract({
+      await writeContract({
         address: addresses.stablecoin as `0x${string}`,
         abi: [
           {
@@ -462,15 +459,14 @@ export function useStablecoin(selectedCollateral: 'DOGE' | 'SHIB' = 'SHIB') {
         functionName: 'approve',
         args: [addresses.daiJoin as `0x${string}`, joinWad],
       });
-      await waitOrTimeout(approveHash as any, 15000);
-      console.log('✅ Approved');
+      console.log('✅ Approved (or already sufficient)');
     } catch (e) {
       console.log('ℹ️ Approve step skipped or not required:', (e as any)?.message || e);
     }
 
-    // 2) Convert external USDog to internal dai by joining
+    // 2) DaiJoin.join to convert wallet USDog -> internal dai
     console.log('🏦 DaiJoin.join (convert wallet USDog -> internal dai)...');
-    const joinHash = await writeContract({
+    await writeContract({
       address: addresses.daiJoin as `0x${string}`,
       abi: [
         {
@@ -484,11 +480,42 @@ export function useStablecoin(selectedCollateral: 'DOGE' | 'SHIB' = 'SHIB') {
       functionName: 'join',
       args: [address as `0x${string}`, joinWad],
     });
-    await waitOrTimeout(joinHash as any, 20000);
+
+    // 2b) Wait until internal dai reflects the join (poll a few times)
+    let daiRad = 0n;
+    for (let i = 0; i < 8; i++) {
+      const dai = await vat.dai(address);
+      daiRad = BigInt(dai.toString());
+      if (daiRad > 0n) break;
+      await sleep(1000);
+    }
+    console.log('Internal dai (rad) after join:', daiRad.toString());
+
+    // Compute max repay allowed by internal dai and outstanding art
+    const maxByDaiArtWad = daiRad / rateRay; // floor(dai / rate)
+    let repayWad = targetRepayWad;
+    if (repayWad > artWad) repayWad = artWad;
+    if (repayWad > maxByDaiArtWad) {
+      console.log(`Adjust repayWad down to available internal dai bound: ${maxByDaiArtWad.toString()}`);
+      repayWad = maxByDaiArtWad;
+    }
+    if (repayWad <= 0n) {
+      throw new Error('Insufficient internal USDog (dai) to repay. Increase amount joined or reduce repay amount.');
+    }
+
+    // Re-check dust rule with the final repay
+    tabAfter = rateRay * (artWad - repayWad);
+    if (artWad - repayWad > 0n && dustRad > 0n && tabAfter < dustRad) {
+      console.log('Final repay would leave dusty debt; switching to full repayment of outstanding art.');
+      repayWad = artWad;
+    }
+
+    const negativeDart = -repayWad;
+    console.log('Final repayWad for frob:', repayWad.toString());
 
     // 3) Reduce vault debt by calling frob with negative dart
     console.log('🧮 vat.frob (dart < 0 to reduce debt)...');
-    const frobHash = await writeContract({
+    await writeContract({
       address: addresses.vat as `0x${string}`,
       abi: [
         {
@@ -507,9 +534,8 @@ export function useStablecoin(selectedCollateral: 'DOGE' | 'SHIB' = 'SHIB') {
         }
       ],
       functionName: 'frob',
-      args: [ilk as `0x${string}`, address as `0x${string}`, address as `0x${string}`, address as `0x${string}`, BigInt(0), negativeDart],
+      args: [ilk as `0x${string}`, address as `0x${string}`, address as `0x${string}`, address as `0x${string}`, 0n, negativeDart],
     });
-    await waitOrTimeout(frobHash as any, 20000);
 
     console.log('✅ Repay completed');
   };
@@ -547,16 +573,46 @@ export function useStablecoin(selectedCollateral: 'DOGE' | 'SHIB' = 'SHIB') {
     });
   };
 
-  // Unlock collateral (reduce locked amount in vault)
-  const unlockCollateral = (amount: string, ilk: string) => {
+  // Unlock collateral with safety precheck to avoid Vat/not-safe
+  const unlockCollateral = async (amount: string, ilk: string) => {
     if (!address) return Promise.reject('No address');
-    
-    console.log('🔓 Unlocking collateral via frob...');
-    console.log('Amount to unlock:', amount);
-    
-    const amountWei = parseEther(amount);
-    const negativeAmount = BigInt(-1) * BigInt(amountWei.toString());
-    
+
+    console.log('🔓 Unlocking collateral via frob with safety precheck...');
+    console.log('Requested unlock:', amount);
+
+    // Read fresh urn/ilk values
+    const provider = new ethers.BrowserProvider((window as any).ethereum);
+    const vat = new ethers.Contract(addresses.vat as string, VAT_ABI as any, provider);
+
+    const urn = await vat.urns(ilk, address);
+    const inkWad = BigInt(urn[0].toString());
+    const artWad = BigInt(urn[1].toString());
+
+    const ilkData = await vat.ilks(ilk);
+    const rateRay = BigInt(ilkData[1].toString());
+    const spotRay = BigInt(ilkData[2].toString());
+
+    // Compute max safe unlock:
+    // Keep: rate * art <= (ink - unlock) * spot
+    // minInkRequired = ceil(rate*art / spot); maxUnlock = max(0, ink - minInkRequired)
+    let maxUnlockWad: bigint;
+    if (artWad === 0n || rateRay === 0n || spotRay === 0n) {
+      maxUnlockWad = inkWad;
+    } else {
+      const minInkRequired = (rateRay * artWad + (spotRay - 1n)) / spotRay; // ceil
+      maxUnlockWad = inkWad > minInkRequired ? (inkWad - minInkRequired) : 0n;
+    }
+    // 0.5% buffer
+    maxUnlockWad = (maxUnlockWad * 995n) / 1000n;
+
+    const reqUnlockWad = parseEther(amount);
+    if (reqUnlockWad > maxUnlockWad) {
+      const humanMax = formatEther(maxUnlockWad);
+      return Promise.reject(new Error(`Unlock would make vault unsafe (Vat/not-safe). Max safe unlock: ${humanMax}`));
+    }
+
+    const negativeAmount = -reqUnlockWad;
+
     return writeContract({
       address: addresses.vat as `0x${string}`,
       abi: [

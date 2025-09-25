@@ -1,0 +1,13 @@
+{
+  "timestamp": "2025-09-23T20:09:42.461Z",
+  "network": "bsc",
+  "flashLiquidator": "0x3dEB59255e499DA3A76cecF8B4C828b2Cc01deC3",
+  "deployer": "0x3263343c30107ec252C88C2718a1512089845D07",
+  "vat": "0xE22Ef9a84844a3D8a6Fd04607045F19d722A43Be",
+  "daiJoin": "0xEae2f180ad117A407A595D31782e66D0dA727967",
+  "stablecoin": "0xb1abd2a64b829596d7afefca31a6c984b5afaafb",
+  "supportedTokens": {
+    "DOGE": "0xbA2aE424d960c26247Dd6c32edC70B295c744C43",
+    "SHIB": "0x2859e4544C4bB03966803b044A93563Bd2D0DD4D"
+  }
+}

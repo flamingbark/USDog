@@ -1,0 +1,26 @@
+var _spot_8sol =
+[
+    [ "Ilk", "struct_ilk.html", "struct_ilk" ],
+    [ "cage", "_spot_8sol.html#a7c3583c4be625e296e5059c107251579", null ],
+    [ "constructor", "_spot_8sol.html#ac718605e2029b51635e80ef30a41ae7f", null ],
+    [ "deny", "_spot_8sol.html#a8a5f728191976601bd6b6412913e839f", null ],
+    [ "file", "_spot_8sol.html#a2cff9773aa04017100f9113c7fdd4d3c", null ],
+    [ "file", "_spot_8sol.html#a10d49cbad96ed35033416d53e53b3acc", null ],
+    [ "file", "_spot_8sol.html#ab443afb5d1c0a4b698268a758ba4967d", null ],
+    [ "mapping", "_spot_8sol.html#a3c8bf44814f4d4016b5837ac92f15208", null ],
+    [ "mapping", "_spot_8sol.html#a11f9eb09a6b6e4a80531d1bdc36ca35d", null ],
+    [ "mul", "_spot_8sol.html#a7f9544715b07f47bc3ec9d0370bc6394", null ],
+    [ "poke", "_spot_8sol.html#a1c7526b3c2bb598da47709d4e2d072a6", null ],
+    [ "Poke", "_spot_8sol.html#aa97969cc241b751675797bf623e6cf2e", null ],
+    [ "rdiv", "_spot_8sol.html#a0ffe35997887ca1ed0692d507590442e", null ],
+    [ "rely", "_spot_8sol.html#ae660a625713a1479560f141fc37bcc5b", null ],
+    [ "_", "_spot_8sol.html#a18f05aeddc212b523b40818fa2b87b33", null ],
+    [ "auth", "_spot_8sol.html#a8cab376463d108629749a5c0f0488950", null ],
+    [ "live", "_spot_8sol.html#ad54f92b21f4db8065bcbf2a6a0b724c9", null ],
+    [ "mat", "_spot_8sol.html#a1b31fdf81a60d5daf911f986d3c04474", null ],
+    [ "par", "_spot_8sol.html#a8a4e5ec5926f293767f3c555868e4c21", null ],
+    [ "pip", "_spot_8sol.html#a0abb82e130aaeba1add302c5648cc33e", null ],
+    [ "solidity", "_spot_8sol.html#aea9db273f54ee9574c03512edd0710e5", null ],
+    [ "Spot", "_spot_8sol.html#ac63f5887c1792736ccc33c635110c480", null ],
+    [ "vat", "_spot_8sol.html#a916158a12883308eb40a06c4edad6e8e", null ]
+];

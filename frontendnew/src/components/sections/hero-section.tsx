@@ -69,60 +69,10 @@ const HeroSection = () => {
           </div>
 
           <p className="mt-4 text-center text-sm text-[#333333]">
-            Mint & borrow USDog against your preferred collateral.{" "}
-            <a
-              href="https://docs.letsgethai.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-[#8c65f7] hover:underline"
-            >
-              Read more about borrowing →
-            </a>
+            Mint & borrow USDog against your preferred collateral.
           </p>
 
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-3 rounded-2xl overflow-hidden">
-            <div
-              className="flex flex-col items-center gap-2 p-4"
-              style={{
-                background:
-                  "radial-gradient(circle at 100% 0%, rgba(206, 237, 214, 0.5) 0%, rgba(206, 237, 214, 0) 40%), linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)",
-              }}
-            >
-              <div className="font-price text-2xl font-bold text-black">$0</div>
-              <StatInfo
-                label="My Locked Collateral"
-                tooltipText="Summation of the total amount of a given collateral locked in your vaults multiplied by the protocol oracle price of that collateral."
-              />
-            </div>
-
-            <div
-              className="flex flex-col items-center gap-2 border-y-2 border-dashed border-black/10 p-4 md:border-x-2 md:border-y-0"
-              style={{
-                background:
-                  "radial-gradient(circle at 100% 0%, rgba(206, 222, 237, 0.5) 0%, rgba(206, 222, 237, 0) 40%), linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)",
-              }}
-            >
-              <div className="font-price text-2xl font-bold text-black">$0</div>
-              <StatInfo
-                label="My Total Debt"
-                tooltipText="The total amount of minted debt tokens multiplied by the protocol redemption price of debt."
-              />
-            </div>
-
-            <div
-              className="flex flex-col items-center gap-2 p-4"
-              style={{
-                background:
-                  "radial-gradient(circle at 100% 0%, rgba(237, 206, 222, 0.5) 0%, rgba(237, 206, 222, 0) 40%), linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)",
-              }}
-            >
-              <div className="font-price text-2xl font-bold text-black">0.0%</div>
-              <StatInfo
-                label="My Net Stability Fee"
-                tooltipText="Weighted average stability fee of My Total Debt"
-              />
-            </div>
-          </div>
+          {/* Stats removed per request */}
         </div>
       </div>
     </section>

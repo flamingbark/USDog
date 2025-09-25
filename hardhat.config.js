@@ -1,4 +1,4 @@
-require("@nomicfoundation/hardhat-toolbox");
+require("@nomiclabs/hardhat-ethers");
 require("dotenv").config();
 
 /** @type import('hardhat/config').HardhatUserConfig */
@@ -23,7 +23,8 @@ module.exports = {
     bsc: {
       url: process.env.BSC_RPC_URL || "https://bsc-dataseed1.binance.org/",
       chainId: 56,
-      gasPrice: 20000000000,
+      gasPrice: 15000000000, // Reduced from 20 to 15 gwei
+      gas: 2000000, // Set explicit gas limit
       accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
     bscTestnet: {

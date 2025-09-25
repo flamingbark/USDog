@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['script_0',['script',['../layout_8tsx.html#a7e1868ffc81f33dc2d2a8547edd0289d',1,'layout.tsx']]],
+  ['section_1',['section',['../page_8tsx.html#a8f36cd1ef31af6828020ad46116b427e',1,'page.tsx']]],
+  ['selection_2',['selection',['../page_8tsx.html#a2d241892452d8d7655cc065a8c775ce3',1,'selection:&#160;page.tsx'],['../vaults_2open_2page_8tsx.html#a2d241892452d8d7655cc065a8c775ce3',1,'selection:&#160;page.tsx']]],
+  ['sin_3',['Sin',['../_vow_8sol.html#a82d8c8559f82fa4d37e732ec80fa9454',1,'Vow.sol']]],
+  ['slug_4',['slug',['../directory-section_8tsx.html#af4b0895c2187621585cbf28cae2d2ac8',1,'directory-section.tsx']]],
+  ['solidity_5',['solidity',['../_calc_8sol.html#aea9db273f54ee9574c03512edd0710e5',1,'solidity:&#160;Calc.sol'],['../_clip_8sol.html#aea9db273f54ee9574c03512edd0710e5',1,'solidity:&#160;Clip.sol'],['../_dog_8sol.html#aea9db273f54ee9574c03512edd0710e5',1,'solidity:&#160;Dog.sol'],['../_end_8sol.html#aea9db273f54ee9574c03512edd0710e5',1,'solidity:&#160;End.sol'],['../_flash_liquidator_8sol.html#aea9db273f54ee9574c03512edd0710e5',1,'solidity:&#160;FlashLiquidator.sol'],['../_join_8sol.html#aea9db273f54ee9574c03512edd0710e5',1,'solidity:&#160;Join.sol'],['../_jug_8sol.html#aea9db273f54ee9574c03512edd0710e5',1,'solidity:&#160;Jug.sol'],['../_d_s_math_8sol.html#aea9db273f54ee9574c03512edd0710e5',1,'solidity:&#160;DSMath.sol'],['../_mock_auctions_8sol.html#aea9db273f54ee9574c03512edd0710e5',1,'solidity:&#160;MockAuctions.sol'],['../_mock_token_8sol.html#aea9db273f54ee9574c03512edd0710e5',1,'solidity:&#160;MockToken.sol'],['../_multicall_8sol.html#aea9db273f54ee9574c03512edd0710e5',1,'solidity:&#160;Multicall.sol'],['../_pot_8sol.html#aea9db273f54ee9574c03512edd0710e5',1,'solidity:&#160;Pot.sol'],['../_price_feed_8sol.html#aea9db273f54ee9574c03512edd0710e5',1,'solidity:&#160;PriceFeed.sol'],['../_spot_8sol.html#aea9db273f54ee9574c03512edd0710e5',1,'solidity:&#160;Spot.sol'],['../_stable_coin_8sol.html#aea9db273f54ee9574c03512edd0710e5',1,'solidity:&#160;StableCoin.sol'],['../_vat_8sol.html#aea9db273f54ee9574c03512edd0710e5',1,'solidity:&#160;Vat.sol'],['../_vow_8sol.html#aea9db273f54ee9574c03512edd0710e5',1,'solidity:&#160;Vow.sol']]],
+  ['spot_6',['spot',['../struct_ilk.html#ac68b01c83a6c1ebb718c7eb52f7000be',1,'Ilk::spot'],['../_end_8sol.html#ac739c08f87169c5530bffb0b1af2012b',1,'spot:&#160;End.sol']]],
+  ['spot_7',['Spot',['../_spot_8sol.html#ac63f5887c1792736ccc33c635110c480',1,'Spot.sol']]],
+  ['spot_5fabi_8',['SPOT_ABI',['../contracts_8ts.html#ae0abfd3c74c2001f975057ebe9c533a9',1,'contracts.ts']]],
+  ['spotter_9',['spotter',['../_clip_8sol.html#a5b5af1e981dbd0e622ed6ffb48978843',1,'Clip.sol']]],
+  ['stablecoin_10',['StableCoin',['../_stable_coin_8sol.html#a0dda5c7154a9b546b04a3eb36032775d',1,'StableCoin.sol']]],
+  ['stablecoin_5fabi_11',['STABLECOIN_ABI',['../contracts_8ts.html#a65ca468d78442da2c59c5d9b05938fbd',1,'contracts.ts']]],
+  ['stairstepexponentialdecrease_12',['StairstepExponentialDecrease',['../_calc_8sol.html#a49716eeeafe7900121a8c7a13a615958',1,'Calc.sol']]],
+  ['staleperiod_13',['stalePeriod',['../_price_feed_8sol.html#a06a0674d2b1f8ad6c2703c13d00e86bb',1,'PriceFeed.sol']]],
+  ['statinfo_14',['StatInfo',['../hero-section_8tsx.html#a8c5696eb8dd5fb070cc523804bc66520',1,'hero-section.tsx']]],
+  ['step_15',['step',['../_calc_8sol.html#ae5f3bfeb7e3cb5c8bc769d5504ebeeae',1,'Calc.sol']]],
+  ['success_16',['success',['../_multicall_8sol.html#ace7be426e5aad944311217ad5dbf7754',1,'Multicall.sol']]],
+  ['sump_17',['sump',['../_vow_8sol.html#a2764ea00be3a4ae9a7ee20f3136a5999',1,'Vow.sol']]],
+  ['supported_18',['SUPPORTED',['../vaults_2open_2page_8tsx.html#a58c2e9682f9d969f669aeb14c998cfe4',1,'page.tsx']]],
+  ['symbol_19',['symbol',['../_mock_token_8sol.html#ad6429bcea17de482deac7f5460ec4e89',1,'symbol:&#160;MockToken.sol'],['../_stable_coin_8sol.html#a4b0b3c7791b4005b6181f80bc8a62cea',1,'symbol:&#160;StableCoin.sol']]]
+];

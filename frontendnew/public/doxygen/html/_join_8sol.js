@@ -1,0 +1,28 @@
+var _join_8sol =
+[
+    [ "balanceOf", "_join_8sol.html#a7feeb1ef7c0a94551e9b58028aefc1b6", null ],
+    [ "burn", "_join_8sol.html#ae1c19e9cea3362d355fb3c873b20c385", null ],
+    [ "cage", "_join_8sol.html#a7c3583c4be625e296e5059c107251579", null ],
+    [ "constructor", "_join_8sol.html#ab61d8e84970b49cea0f07d602505a33c", null ],
+    [ "constructor", "_join_8sol.html#af03eb3376085bd43bf58ebc94f721eda", null ],
+    [ "deny", "_join_8sol.html#afe6b355b3e5ffa7ad31bfb52a155af17", null ],
+    [ "exit", "_join_8sol.html#a69932d819484687841af6b7e94b61f8b", null ],
+    [ "join", "_join_8sol.html#af40516c5fb8adb35661201ab74804733", null ],
+    [ "mapping", "_join_8sol.html#a3c8bf44814f4d4016b5837ac92f15208", null ],
+    [ "move", "_join_8sol.html#aaeeb20cba1ba74e144ed8bf19d4a64d5", null ],
+    [ "rely", "_join_8sol.html#a146f0f6fee6f3ce324bf03ffa4b930f2", null ],
+    [ "transfer", "_join_8sol.html#a56e6ab8148b076d5ad60056fdaba1a13", null ],
+    [ "transferFrom", "_join_8sol.html#ae9b2822a043ef96ead82f0a067617584", null ],
+    [ "_", "_join_8sol.html#a18f05aeddc212b523b40818fa2b87b33", null ],
+    [ "auth", "_join_8sol.html#a8cab376463d108629749a5c0f0488950", null ],
+    [ "dai", "_join_8sol.html#a5242c815f6015555e6d215d63c7f5276", null ],
+    [ "DaiJoin", "_join_8sol.html#a22b6ee442d3a4b252ac09b49207253c3", null ],
+    [ "dec", "_join_8sol.html#a6fd8cbd6806562601e8f9990e76c9e9d", null ],
+    [ "gem", "_join_8sol.html#a7a2b033dc699c58e281cffcfbcb427b0", null ],
+    [ "GemJoin", "_join_8sol.html#aeae078328b9ede24ad90fe46828b9bf4", null ],
+    [ "ilk", "_join_8sol.html#ab5b0e57fc88cfbbb30200c1381dcf763", null ],
+    [ "live", "_join_8sol.html#ad54f92b21f4db8065bcbf2a6a0b724c9", null ],
+    [ "ONE", "_join_8sol.html#a5100b89200079115b7630d033bb99012", null ],
+    [ "solidity", "_join_8sol.html#aea9db273f54ee9574c03512edd0710e5", null ],
+    [ "vat", "_join_8sol.html#a916158a12883308eb40a06c4edad6e8e", null ]
+];

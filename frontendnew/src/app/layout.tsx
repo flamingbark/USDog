@@ -3,6 +3,8 @@ import "./globals.css";
 import ErrorReporter from "@/components/ErrorReporter";
 import Script from "next/script";
 import { Providers } from "@/components/providers";
+import Navigation from "@/components/sections/navigation";
+import RiskDisclaimer from "@/components/sections/risk-disclaimer";
 
 export const metadata: Metadata = {
   title: "USDog Stablecoin",
@@ -16,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
+      <body className="antialiased min-h-screen flex flex-col">
         <Providers>
           <ErrorReporter />
           <Script
@@ -29,7 +31,27 @@ export default function RootLayout({
             data-debug="true"
             data-custom-data='{"appName": "USDog", "version": "1.0.0", "greeting": "Welcome to USDog"}'
           />
-          {children}
+          <header>
+            <div className="container mx-auto px-4 py-5">
+              <Navigation />
+            </div>
+          </header>
+          <main className="flex-1">
+            {children}
+          </main>
+          <footer className="mt-8 border-t border-black/10 bg-[#f3f1f7]">
+            <div className="container mx-auto px-4 pt-6">
+              <RiskDisclaimer />
+            </div>
+            <div className="container mx-auto px-4 py-8 text-sm text-muted-foreground flex flex-col sm:flex-row items-center justify-between gap-3">
+              <span>©USDog - All rights reserved.</span>
+              <nav className="flex gap-4">
+                <a href="/docs" className="hover:text-foreground">Docs</a>
+                <a href="https://github.com/your-org/your-repo" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">Github</a>
+                <a href="https://t.me/usdog_bark" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">Telegram</a>
+              </nav>
+            </div>
+          </footer>
         </Providers>
       </body>
     </html>

@@ -1,0 +1,24 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "MockFlopper",
+  "sourceName": "contracts/mocks/MockAuctions.sol",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [],
+      "name": "Caged",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "cage",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x60808060405234601457608f908161001a8239f35b600080fdfe6004361015600c57600080fd5b6000803560e01c636924500914602157600080fd5b34605657806003193601126056577f61e85925245534783490ebf691a7a38d39e02f3c319a97cd5f713d88899d1f478180a180f35b80fdfea2646970667358221220222023c6b56597f9f2db537253ed24582a20d3ed25a6a6df077dfa1ed66002bf64736f6c63430008130033",
+  "deployedBytecode": "0x6004361015600c57600080fd5b6000803560e01c636924500914602157600080fd5b34605657806003193601126056577f61e85925245534783490ebf691a7a38d39e02f3c319a97cd5f713d88899d1f478180a180f35b80fdfea2646970667358221220222023c6b56597f9f2db537253ed24582a20d3ed25a6a6df077dfa1ed66002bf64736f6c63430008130033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

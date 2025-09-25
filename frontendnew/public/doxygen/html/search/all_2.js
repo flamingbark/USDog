@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['background_2dboxes_2etsx_0',['background-boxes.tsx',['../background-boxes_8tsx.html',1,'']]],
+  ['badge_2etsx_1',['badge.tsx',['../badge_8tsx.html',1,'']]],
+  ['balanceof_2',['balanceOf',['../_flash_liquidator_8sol.html#a48bfb3fe4096a54417705ebc7276cd46',1,'balanceOf(address account) external view returns(uint256):&#160;FlashLiquidator.sol'],['../_join_8sol.html#a7feeb1ef7c0a94551e9b58028aefc1b6',1,'balanceOf(address) external view returns(uint256):&#160;Join.sol']]],
+  ['bark_3',['Bark',['../_dog_8sol.html#ac9d72105a45af29a8665f56780c68b61',1,'Dog.sol']]],
+  ['bark_4',['bark',['../_dog_8sol.html#acfd0d0ebaaeb63877b489435dc14cfec',1,'Dog.sol']]],
+  ['base_5',['base',['../_jug_8sol.html#a42221ae13c427234b08a21d229eb2ad9',1,'Jug.sol']]],
+  ['blockandaggregate_6',['blockAndAggregate',['../_multicall_8sol.html#a8c0a3f3eed8512af01f46b0865c14333',1,'Multicall.sol']]],
+  ['blockhash_7',['blockHash',['../_multicall_8sol.html#aa65b793a7cb06a8809beb8011ac2f18e',1,'Multicall.sol']]],
+  ['blocknumber_8',['blockNumber',['../_multicall_8sol.html#a7e0c8f32b19f8b11657973b81899b778',1,'Multicall.sol']]],
+  ['blocktimestamplast_9',['blockTimestampLast',['../_flash_liquidator_8sol.html#af326f2b7f2163ead19b0b31b0b0e1cd5',1,'FlashLiquidator.sol']]],
+  ['bool_10',['bool',['../_price_feed_8sol.html#ae8a0aac509ad14fe9517cf85edf9a0f7',1,'PriceFeed.sol']]],
+  ['borrower_11',['borrower',['../struct_flash_loan_data.html#a16b98aaf78bf11f46f3dc50f500e41a4',1,'FlashLoanData']]],
+  ['both_12',['both',['../_vat_8sol.html#a0b52a22a8e8d83c20061494ec26c9416',1,'Vat.sol']]],
+  ['box_13',['Box',['../_visual_edits_messenger_8tsx.html#ab19b7c27f2cf237a9cc957b01e01b1aa',1,'VisualEditsMessenger.tsx']]],
+  ['box_5fpadding_14',['BOX_PADDING',['../_visual_edits_messenger_8tsx.html#a6be6df8bb4e0739f642f2c5114ddde8d',1,'VisualEditsMessenger.tsx']]],
+  ['boxes_15',['Boxes',['../background-boxes_8tsx.html#a5047cccc27787651d41a6c5a8fae78eb',1,'background-boxes.tsx']]],
+  ['boxescore_16',['BoxesCore',['../background-boxes_8tsx.html#abf14ba535b05909ecff5c42fa47f85da',1,'background-boxes.tsx']]],
+  ['breadcrumb_2etsx_17',['breadcrumb.tsx',['../breadcrumb_8tsx.html',1,'']]],
+  ['buf_18',['buf',['../_clip_8sol.html#a680ed5d3fdf874dd4c8685cb51c3f1a6',1,'Clip.sol']]],
+  ['bump_19',['bump',['../_vow_8sol.html#a3a39276df5dc14aba2e02b1aba7d7908',1,'Vow.sol']]],
+  ['burn_20',['burn',['../_join_8sol.html#ae1c19e9cea3362d355fb3c873b20c385',1,'burn(address, uint256) external:&#160;StableCoin.sol'],['../_stable_coin_8sol.html#abeea6423556d017cb002dddd5d76fcde',1,'burn(address usr, uint256 wad) external:&#160;StableCoin.sol'],['../_vow_8sol.html#ae1c19e9cea3362d355fb3c873b20c385',1,'burn(address, uint256) external:&#160;StableCoin.sol']]],
+  ['button_2etsx_21',['button.tsx',['../button_8tsx.html',1,'']]]
+];

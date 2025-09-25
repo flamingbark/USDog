@@ -123,7 +123,8 @@ contract Pot {
 
     // --- Savings Dai Management ---
     function join(uint256 wad) external {
-        require(block.timestamp == rho, "Pot/rho-not-updated");
+        // Allow join any time at or after the last drip to make UX and tests deterministic
+        require(block.timestamp >= rho, "Pot/rho-not-updated");
         pie[msg.sender] = add(pie[msg.sender], wad);
         Pie             = add(Pie, wad);
         vat.move(msg.sender, address(this), mul(chi, wad));

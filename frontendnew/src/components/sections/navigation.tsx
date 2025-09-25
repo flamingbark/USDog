@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Smile, ChevronDown } from "lucide-react";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount, useDisconnect } from 'wagmi';
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +19,9 @@ const navLinks = [
 ];
 
 const Navigation = () => {
+  const { isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
+
   return (
     <header className="sticky top-5 z-50 mx-auto max-w-[1200px] rounded-2xl bg-card px-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
       <div className="flex h-20 items-center justify-between">
@@ -53,9 +57,15 @@ const Navigation = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>Docs</DropdownMenuItem>
-              <DropdownMenuItem>Github</DropdownMenuItem>
-              <DropdownMenuItem>Discord</DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/docs">Docs</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="https://github.com/your-org/your-repo" target="_blank" rel="noopener noreferrer">Github</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="https://t.me/usdog_bark" target="_blank" rel="noopener noreferrer">Telegram</Link>
+              </DropdownMenuItem>
               {/* Mobile nav items */}
               <div className="lg:hidden">
                 {navLinks.map((link) => (
@@ -67,6 +77,15 @@ const Navigation = () => {
             </DropdownMenuContent>
           </DropdownMenu>
 
+          {isConnected && (
+            <Button
+              variant="outline"
+              className="flex items-center gap-x-1.5 rounded-full px-4 py-2 font-button"
+              onClick={() => disconnect()}
+            >
+              Disconnect
+            </Button>
+          )}
           <ConnectButton />
         </div>
       </div>

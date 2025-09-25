@@ -242,9 +242,45 @@
         "ShibPriceFeed"
       ]
     },
+    "C:\\Users\\terex\\Documents\\Stablecoin\\node_modules\\@api3\\contracts\\interfaces\\IApi3ReaderProxy.sol": {
+      "lastModificationDate": 1758670242975,
+      "contentHash": "16ae0a0132d146c0cd20374404ba7dee",
+      "sourceName": "@api3/contracts/interfaces/IApi3ReaderProxy.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IApi3ReaderProxy"
+      ]
+    },
     "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\Pot.sol": {
-      "lastModificationDate": 1758091551560,
-      "contentHash": "dd37e3bac1adf035e74f389408323d02",
+      "lastModificationDate": 1758674238325,
+      "contentHash": "467a3d081f46d220c054d6e735d759c8",
       "sourceName": "contracts/Pot.sol",
       "solcConfig": {
         "version": "0.8.19",
@@ -359,7 +395,7 @@
       ]
     },
     "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\Join.sol": {
-      "lastModificationDate": 1758582545702,
+      "lastModificationDate": 1758621841825,
       "contentHash": "6a9127d95818cd5da721768343a00e6f",
       "sourceName": "contracts/Join.sol",
       "solcConfig": {
@@ -399,6 +435,51 @@
         "GemLike",
         "ShibJoin",
         "StableCoinLike",
+        "VatLike"
+      ]
+    },
+    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\FlashLiquidator.sol": {
+      "lastModificationDate": 1758657634042,
+      "contentHash": "6b514d83606e1c3f696f35f296175e43",
+      "sourceName": "contracts/FlashLiquidator.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./lib/DSMath.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.19"
+      ],
+      "artifacts": [
+        "ClipperLike",
+        "DaiJoinLike",
+        "FlashLiquidator",
+        "GemJoinLike",
+        "IERC20",
+        "IPancakePair",
+        "IPancakeRouter",
         "VatLike"
       ]
     },
@@ -534,6 +615,43 @@
         "VowLike"
       ]
     },
+    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\mocks\\MockAuctions.sol": {
+      "lastModificationDate": 1758674894719,
+      "contentHash": "55e157a3fff043a687b413a24f7dde0d",
+      "sourceName": "contracts/mocks/MockAuctions.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.19"
+      ],
+      "artifacts": [
+        "MockFlapper",
+        "MockFlopper"
+      ]
+    },
     "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\mocks\\MockToken.sol": {
       "lastModificationDate": 1758091803506,
       "contentHash": "46cb33299fd690da7a74416524aab2d7",
@@ -606,42 +724,6 @@
       ],
       "artifacts": [
         "StableCoin"
-      ]
-    },
-    "C:\\Users\\terex\\Documents\\Stablecoin\\node_modules\\@api3\\contracts\\interfaces\\IApi3ReaderProxy.sol": {
-      "lastModificationDate": 1758589698165,
-      "contentHash": "16ae0a0132d146c0cd20374404ba7dee",
-      "sourceName": "@api3/contracts/interfaces/IApi3ReaderProxy.sol",
-      "solcConfig": {
-        "version": "0.8.19",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "IApi3ReaderProxy"
       ]
     }
   }

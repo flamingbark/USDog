@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['dai_0',['dai',['../_flash_liquidator_8sol.html#a8cf52530124cd3742aca2863461d0ca8',1,'dai:&#160;FlashLiquidator.sol'],['../_join_8sol.html#a5242c815f6015555e6d215d63c7f5276',1,'dai:&#160;Join.sol']]],
+  ['daijoin_1',['daiJoin',['../_flash_liquidator_8sol.html#a3ff373700106161977bf2c425cc7b85c',1,'FlashLiquidator.sol']]],
+  ['daijoin_2',['DaiJoin',['../_join_8sol.html#a22b6ee442d3a4b252ac09b49207253c3',1,'Join.sol']]],
+  ['debt_3',['debt',['../_end_8sol.html#a458d5998c3ee43bf8bad035000453726',1,'debt:&#160;End.sol'],['../_vat_8sol.html#af6f654d8e0af988a4cde41d9a3ace585',1,'debt:&#160;Vat.sol']]],
+  ['dec_4',['dec',['../_join_8sol.html#a6fd8cbd6806562601e8f9990e76c9e9d',1,'Join.sol']]],
+  ['decentralized_5',['decentralized',['../directory-section_8tsx.html#aee7052365742a298ca7da0b40249c6ae',1,'directory-section.tsx']]],
+  ['decimals_6',['decimals',['../_mock_token_8sol.html#ab0a7fea8854d5db2bb7724ace462a174',1,'decimals:&#160;MockToken.sol'],['../_stable_coin_8sol.html#ab0a7fea8854d5db2bb7724ace462a174',1,'decimals:&#160;StableCoin.sol']]],
+  ['decorativeelements_7',['DecorativeElements',['../decorative-elements_8tsx.html#aed08fa783517da1d3ee426bd7937a68d',1,'decorative-elements.tsx']]],
+  ['description_8',['description',['../layout_8tsx.html#a32293b19724832adc0c2255104f79ca7',1,'description:&#160;layout.tsx'],['../directory-section_8tsx.html#aa3a1e2451ad8722ba3513353e016c7ac',1,'description:&#160;directory-section.tsx']]],
+  ['dirt_9',['dirt',['../struct_ilk.html#a1f08da19371b9b6e63b209fe682cf192',1,'Ilk']]],
+  ['dirt_10',['Dirt',['../_dog_8sol.html#a18b4b3dd0efc0a51b92b4e992485ad4b',1,'Dog.sol']]],
+  ['dirt_11',['dirt',['../_dog_8sol.html#aba8ff174f9e8b8b51fbc526982f51547',1,'Dog.sol']]],
+  ['disclaimer_12',['disclaimer',['../layout_8tsx.html#abc433a566c1c18e1d6418576c79ec5bb',1,'layout.tsx']]],
+  ['dog_13',['Dog',['../_dog_8sol.html#a912f3e029289c53570feb36bdbb5f100',1,'Dog.sol']]],
+  ['dog_14',['dog',['../_clip_8sol.html#a50b709f40a2065fb55fd0e7f1caa8309',1,'dog:&#160;Clip.sol'],['../_end_8sol.html#a50b709f40a2065fb55fd0e7f1caa8309',1,'dog:&#160;End.sol']]],
+  ['domain_5fseparator_15',['DOMAIN_SEPARATOR',['../_stable_coin_8sol.html#ab70b15f89f6e80d3cf6d6ded1df34d7d',1,'StableCoin.sol']]],
+  ['done_16',['done',['../_clip_8sol.html#ad604cff3eb5d475cdc9f8eb5ab570fee',1,'Clip.sol']]],
+  ['dsmath_17',['DSMath',['../_d_s_math_8sol.html#ab1a074ec6647c7dcb0928c6ce837cdea',1,'DSMath.sol']]],
+  ['dsr_18',['dsr',['../_pot_8sol.html#a6fed66d541f59729032c7a4b6afca9fa',1,'Pot.sol']]],
+  ['dump_19',['dump',['../_vow_8sol.html#a1f70a1f7abb339fea01611a6bd5a7a31',1,'Vow.sol']]],
+  ['dust_20',['dust',['../struct_ilk.html#a2ccc39bcc6387ca9db247cb4bb9d8f7e',1,'Ilk']]],
+  ['duty_21',['duty',['../struct_ilk.html#aa9b95032f7f6619048d9a0c32281be4f',1,'Ilk::duty'],['../_jug_8sol.html#a3cf355675c18a9a21eec09dbbde0760a',1,'duty:&#160;Jug.sol']]]
+];

@@ -1,0 +1,49 @@
+{
+  "network": "bsc-mainnet",
+  "timestamp": "2025-09-23T20:25:59.620Z",
+  "deployer": "0x754dc60D811eebfAD39Db915eE0fD3905Ea4D978",
+  "core": {
+    "vat": "0xE22Ef9a84844a3D8a6Fd04607045F19d722A43Be",
+    "spot": "0x5f029d9b48162a809919e595c2b712f5cb039d19",
+    "stablecoin": "0xb1abd2a64b829596d7afefca31a6c984b5afaafb",
+    "daiJoin": "0xEae2f180ad117A407A595D31782e66D0dA727967",
+    "dog": "0x8F8f0E79cE4AAaC0E19826C3F730DC82B107AB88",
+    "vow": "0x9804bd1D0008efD5525A3eeE55C32B5110282b3E",
+    "jug": "0x898e11B354d67F9176ab4fd7EE2c54ec137eA521",
+    "pot": "0x17b6B6CC4eeA6a152d11E408B91F227267B26997",
+    "end": "0x4d680227ec2061A575A309Fc51f88c7ADD5Ab27D",
+    "multicall": "0x4a286608f9945365D8AAeE6de6a94A509CB946D4"
+  },
+  "collateral": {
+    "doge": {
+      "token": "0xbA2aE424d960c26247Dd6c32edC70B295c744C43",
+      "join": "0x09FA30f1397c9d208C3c7e7A99Ca7B4d274141c7",
+      "priceFeed": "0x6c5aEf4F9A41502Ff9Cd60908bAdCCc3233e536f",
+      "clipper": "0x6bD154383406C9fed481C2c215e19332B58AE0D8",
+      "ilk": "DOGE-A"
+    },
+    "shib": {
+      "token": "0x2859e4544C4bB03966803b044A93563Bd2D0DD4D",
+      "join": "0x5E03607Ce6ca0382c054e5E978a3d31A57758Df3",
+      "priceFeed": "0x93b2d0eDf1989aD97959D05BE863446a1B34b213",
+      "clipper": "0xB2E90DacB905F9a979AFbCc87Ea18404f077Da20",
+      "ilk": "SHIB-A"
+    }
+  },
+  "liquidation": {
+    "calc": "0x97acD6e75a93De8eB1b84E944Ac6319710F04636"
+  },
+  "external": {
+    "pancakeRouter": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+    "pancakeFactory": "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73",
+    "wbnb": "0xbb4CdB9CBd36B01bD1cBaeBF2De08d9173bc095c"
+  },
+  "flashLoan": {
+    "pools": {
+      "DOGE-WBNB": "0x0000000000000000000000000000000000000001",
+      "SHIB-WBNB": "0x0000000000000000000000000000000000000002",
+      "WBNB-USDT": "0x36696169C63e42cd08ce11f5deeBbCeBae652050",
+      "WBNB-BUSD": "0x7EFaEf62fDdCCa950418312c6C91Aef321375A00"
+    }
+  }
+}

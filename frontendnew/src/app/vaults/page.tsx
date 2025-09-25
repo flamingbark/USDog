@@ -1,28 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useAccount } from 'wagmi';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 export default function VaultsPage() {
-  const { address, isConnected } = useAccount();
 
   return (
     <div className="container mx-auto min-h-[70vh] px-4 py-12">
       <div className="mx-auto max-w-5xl">
-        {/* Wallet Connection Header */}
-        <div className="mb-6 flex items-center justify-end">
-          {isConnected ? (
-            <div className="flex items-center gap-2 rounded-full bg-muted px-3 py-1 text-sm">
-              <div className="h-2 w-2 rounded-full bg-green-500"></div>
-              <span className="font-mono text-xs">
-                {address?.slice(0, 6)}...{address?.slice(-4)}
-              </span>
-            </div>
-          ) : (
-            <ConnectButton />
-          )}
-        </div>
+        {/* Wallet connection header removed as requested */}
 
         <header className="mb-8">
           <h1 className="text-3xl font-bold text-foreground">Open a USDog Vault</h1>
@@ -112,11 +97,11 @@ export default function VaultsPage() {
             <dl className="grid grid-cols-2 gap-4 rounded-xl bg-muted p-4">
               <div>
                 <dt className="text-xs text-muted-foreground">Max LTV</dt>
-                <dd className="text-base font-semibold text-foreground">70%</dd>
+                <dd className="text-base font-semibold text-foreground">75%</dd>
               </div>
               <div>
                 <dt className="text-xs text-muted-foreground">Stability Fee (APR)</dt>
-                <dd className="text-base font-semibold text-foreground">2.0%</dd>
+                <dd className="text-base font-semibold text-foreground">2.5%</dd>
               </div>
               <div>
                 <dt className="text-xs text-muted-foreground">Min. Collateral</dt>
