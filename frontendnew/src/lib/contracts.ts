@@ -1,781 +1,1225 @@
-import { ethers } from 'ethers';
+import { ethers } from "ethers";
 
 // Contract ABIs
 export const STABLECOIN_ABI = [
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "uint256",
-        "name": "chainId_",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "chainId_",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
+    stateMutability: "nonpayable",
+    type: "constructor",
   },
   {
-    "anonymous": false,
-    "inputs": [
+    anonymous: false,
+    inputs: [
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "src",
-        "type": "address"
+        indexed: true,
+        internalType: "address",
+        name: "src",
+        type: "address",
       },
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "guy",
-        "type": "address"
+        indexed: true,
+        internalType: "address",
+        name: "guy",
+        type: "address",
       },
       {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "wad",
-        "type": "uint256"
-      }
+        indexed: false,
+        internalType: "uint256",
+        name: "wad",
+        type: "uint256",
+      },
     ],
-    "name": "Approval",
-    "type": "event"
+    name: "Approval",
+    type: "event",
   },
   {
-    "anonymous": false,
-    "inputs": [
+    anonymous: false,
+    inputs: [
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "src",
-        "type": "address"
+        indexed: true,
+        internalType: "address",
+        name: "src",
+        type: "address",
       },
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "dst",
-        "type": "address"
+        indexed: true,
+        internalType: "address",
+        name: "dst",
+        type: "address",
       },
       {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "wad",
-        "type": "uint256"
-      }
+        indexed: false,
+        internalType: "uint256",
+        name: "wad",
+        type: "uint256",
+      },
     ],
-    "name": "Transfer",
-    "type": "event"
+    name: "Transfer",
+    type: "event",
   },
   {
-    "inputs": [],
-    "name": "DOMAIN_SEPARATOR",
-    "outputs": [
+    inputs: [],
+    name: "DOMAIN_SEPARATOR",
+    outputs: [
       {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "PERMIT_TYPEHASH",
-    "outputs": [
+    inputs: [],
+    name: "PERMIT_TYPEHASH",
+    outputs: [
       {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        internalType: "address",
+        name: "",
+        type: "address",
       },
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
     ],
-    "name": "allowance",
-    "outputs": [
+    name: "allowance",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "usr",
-        "type": "address"
+        internalType: "address",
+        name: "usr",
+        type: "address",
       },
       {
-        "internalType": "uint256",
-        "name": "wad",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "wad",
+        type: "uint256",
+      },
     ],
-    "name": "approve",
-    "outputs": [
+    name: "approve",
+    outputs: [
       {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
     ],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
     ],
-    "name": "balanceOf",
-    "outputs": [
+    name: "balanceOf",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "usr",
-        "type": "address"
+        internalType: "address",
+        name: "usr",
+        type: "address",
       },
       {
-        "internalType": "uint256",
-        "name": "wad",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "wad",
+        type: "uint256",
+      },
     ],
-    "name": "burn",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: "burn",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "decimals",
-    "outputs": [
+    inputs: [],
+    name: "decimals",
+    outputs: [
       {
-        "internalType": "uint8",
-        "name": "",
-        "type": "uint8"
-      }
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "guy",
-        "type": "address"
-      }
+        internalType: "address",
+        name: "guy",
+        type: "address",
+      },
     ],
-    "name": "deny",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: "deny",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "usr",
-        "type": "address"
+        internalType: "address",
+        name: "usr",
+        type: "address",
       },
       {
-        "internalType": "uint256",
-        "name": "wad",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "wad",
+        type: "uint256",
+      },
     ],
-    "name": "mint",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: "mint",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "name",
-    "outputs": [
+    inputs: [],
+    name: "name",
+    outputs: [
       {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
     ],
-    "name": "nonces",
-    "outputs": [
+    name: "nonces",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
+        internalType: "address",
+        name: "owner",
+        type: "address",
       },
       {
-        "internalType": "address",
-        "name": "spender",
-        "type": "address"
+        internalType: "address",
+        name: "spender",
+        type: "address",
       },
       {
-        "internalType": "uint256",
-        "name": "value",
-        "type": "uint256"
+        internalType: "uint256",
+        name: "value",
+        type: "uint256",
       },
       {
-        "internalType": "uint256",
-        "name": "deadline",
-        "type": "uint256"
+        internalType: "uint256",
+        name: "deadline",
+        type: "uint256",
       },
       {
-        "internalType": "uint8",
-        "name": "v",
-        "type": "uint8"
+        internalType: "uint8",
+        name: "v",
+        type: "uint8",
       },
       {
-        "internalType": "bytes32",
-        "name": "r",
-        "type": "bytes32"
+        internalType: "bytes32",
+        name: "r",
+        type: "bytes32",
       },
       {
-        "internalType": "bytes32",
-        "name": "s",
-        "type": "bytes32"
-      }
+        internalType: "bytes32",
+        name: "s",
+        type: "bytes32",
+      },
     ],
-    "name": "permit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: "permit",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "guy",
-        "type": "address"
-      }
+        internalType: "address",
+        name: "guy",
+        type: "address",
+      },
     ],
-    "name": "rely",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: "rely",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "symbol",
-    "outputs": [
+    inputs: [],
+    name: "symbol",
+    outputs: [
       {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "totalSupply",
-    "outputs": [
+    inputs: [],
+    name: "totalSupply",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "dst",
-        "type": "address"
+        internalType: "address",
+        name: "dst",
+        type: "address",
       },
       {
-        "internalType": "uint256",
-        "name": "wad",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "wad",
+        type: "uint256",
+      },
     ],
-    "name": "transfer",
-    "outputs": [
+    name: "transfer",
+    outputs: [
       {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
     ],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "src",
-        "type": "address"
+        internalType: "address",
+        name: "src",
+        type: "address",
       },
       {
-        "internalType": "address",
-        "name": "dst",
-        "type": "address"
+        internalType: "address",
+        name: "dst",
+        type: "address",
       },
       {
-        "internalType": "uint256",
-        "name": "wad",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "wad",
+        type: "uint256",
+      },
     ],
-    "name": "transferFrom",
-    "outputs": [
+    name: "transferFrom",
+    outputs: [
       {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
     ],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "version",
-    "outputs": [
+    inputs: [],
+    name: "version",
+    outputs: [
       {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
     ],
-    "name": "wards",
-    "outputs": [
+    name: "wards",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
-  }
+    stateMutability: "view",
+    type: "function",
+  },
 ];
 
 export const VAT_ABI = [
   {
-    "inputs": [],
-    "name": "Line",
-    "outputs": [
+    inputs: [],
+    name: "Line",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
     ],
-    "name": "ilks",
-    "outputs": [
+    name: "ilks",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "Art",
-        "type": "uint256"
+        internalType: "uint256",
+        name: "Art",
+        type: "uint256",
       },
       {
-        "internalType": "uint256",
-        "name": "rate",
-        "type": "uint256"
+        internalType: "uint256",
+        name: "rate",
+        type: "uint256",
       },
       {
-        "internalType": "uint256",
-        "name": "spot",
-        "type": "uint256"
+        internalType: "uint256",
+        name: "spot",
+        type: "uint256",
       },
       {
-        "internalType": "uint256",
-        "name": "line",
-        "type": "uint256"
+        internalType: "uint256",
+        name: "line",
+        type: "uint256",
       },
       {
-        "internalType": "uint256",
-        "name": "dust",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "dust",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "bytes32",
-        "name": "ilk",
-        "type": "bytes32"
+        internalType: "bytes32",
+        name: "ilk",
+        type: "bytes32",
       },
       {
-        "internalType": "address",
-        "name": "usr",
-        "type": "address"
-      }
+        internalType: "address",
+        name: "usr",
+        type: "address",
+      },
     ],
-    "name": "urns",
-    "outputs": [
+    name: "urns",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "ink",
-        "type": "uint256"
+        internalType: "uint256",
+        name: "ink",
+        type: "uint256",
       },
       {
-        "internalType": "uint256",
-        "name": "art",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "art",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "bytes32",
-        "name": "ilk",
-        "type": "bytes32"
+        internalType: "bytes32",
+        name: "ilk",
+        type: "bytes32",
       },
       {
-        "internalType": "address",
-        "name": "usr",
-        "type": "address"
-      }
+        internalType: "address",
+        name: "usr",
+        type: "address",
+      },
     ],
-    "name": "gem",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
+    name: "gem",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "bytes32",
-        "name": "ilk",
-        "type": "bytes32"
+        internalType: "address",
+        name: "",
+        type: "address",
       },
-      {
-        "internalType": "address",
-        "name": "usr",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "v",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "w",
-        "type": "address"
-      },
-      {
-        "internalType": "int256",
-        "name": "dink",
-        "type": "int256"
-      },
-      {
-        "internalType": "int256",
-        "name": "dart",
-        "type": "int256"
-      }
     ],
-    "name": "frob",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: "dai",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    outputs: [
       {
-        "internalType": "address",
-        "name": "src",
-        "type": "address"
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
-      {
-        "internalType": "address",
-        "name": "dst",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "rad",
-        "type": "uint256"
-      }
     ],
-    "name": "move",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "usr",
-        "type": "address"
-      }
+        internalType: "bytes32",
+        name: "i",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "u",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "v",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "w",
+        type: "address",
+      },
+      {
+        internalType: "int256",
+        name: "dink",
+        type: "int256",
+      },
+      {
+        internalType: "int256",
+        name: "dart",
+        type: "int256",
+      },
     ],
-    "name": "hope",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: "frob",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "bytes32",
-        "name": "ilk",
-        "type": "bytes32"
-      }
+        internalType: "address",
+        name: "src",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "dst",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "rad",
+        type: "uint256",
+      },
     ],
-    "name": "init",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
+    name: "move",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "usr",
+        type: "address",
+      },
+    ],
+    name: "hope",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "ilk",
+        type: "bytes32",
+      },
+    ],
+    name: "init",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
 ];
 
 export const SPOT_ABI = [
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
     ],
-    "name": "ilks",
-    "outputs": [
+    name: "ilks",
+    outputs: [
       {
-        "internalType": "contract PipLike",
-        "name": "pip",
-        "type": "address"
+        internalType: "contract PipLike",
+        name: "pip",
+        type: "address",
       },
       {
-        "internalType": "uint256",
-        "name": "mat",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "mat",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "bytes32",
-        "name": "ilk",
-        "type": "bytes32"
-      }
+        internalType: "bytes32",
+        name: "ilk",
+        type: "bytes32",
+      },
     ],
-    "name": "poke",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
+    name: "poke",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
 ];
 
 export const JOIN_ABI = [
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "usr",
-        "type": "address"
+        internalType: "address",
+        name: "usr",
+        type: "address",
       },
       {
-        "internalType": "uint256",
-        "name": "wad",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "wad",
+        type: "uint256",
+      },
     ],
-    "name": "join",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: "join",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "usr",
-        "type": "address"
+        internalType: "address",
+        name: "usr",
+        type: "address",
       },
       {
-        "internalType": "uint256",
-        "name": "wad",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "wad",
+        type: "uint256",
+      },
     ],
-    "name": "exit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
+    name: "exit",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+
+export const DAI_JOIN_ABI = [
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "usr",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "wad",
+        type: "uint256",
+      },
+    ],
+    name: "join",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "usr",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "wad",
+        type: "uint256",
+      },
+    ],
+    name: "exit",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+
+export const POT_ABI = [
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "vat_",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tmp",
+        type: "uint256",
+      },
+    ],
+    name: "Drip",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "usr",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "wad",
+        type: "uint256",
+      },
+    ],
+    name: "Exit",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "what",
+        type: "bytes32",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "data",
+        type: "uint256",
+      },
+    ],
+    name: "File",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "what",
+        type: "bytes32",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "addr",
+        type: "address",
+      },
+    ],
+    name: "File",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "usr",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "wad",
+        type: "uint256",
+      },
+    ],
+    name: "Join",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [],
+    name: "Cage",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "Pie",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "chi",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "dsr",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "live",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "pie",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "rho",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "vat",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "vow",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "wards",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "guy",
+        type: "address",
+      },
+    ],
+    name: "rely",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "guy",
+        type: "address",
+      },
+    ],
+    name: "deny",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "what",
+        type: "bytes32",
+      },
+      {
+        internalType: "uint256",
+        name: "data",
+        type: "uint256",
+      },
+    ],
+    name: "file",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "what",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "addr",
+        type: "address",
+      },
+    ],
+    name: "file",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "cage",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "drip",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "tmp",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "wad",
+        type: "uint256",
+      },
+    ],
+    name: "join",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "wad",
+        type: "uint256",
+      },
+    ],
+    name: "exit",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
 ];
 
 export const ERC20_ABI = [
   {
-    "inputs": [],
-    "name": "name",
-    "outputs": [
+    inputs: [],
+    name: "name",
+    outputs: [
       {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "symbol",
-    "outputs": [
+    inputs: [],
+    name: "symbol",
+    outputs: [
       {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "decimals",
-    "outputs": [
+    inputs: [],
+    name: "decimals",
+    outputs: [
       {
-        "internalType": "uint8",
-        "name": "",
-        "type": "uint8"
-      }
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
     ],
-    "name": "balanceOf",
-    "outputs": [
+    name: "balanceOf",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "spender",
-        "type": "address"
+        internalType: "address",
+        name: "spender",
+        type: "address",
       },
       {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
     ],
-    "name": "approve",
-    "outputs": [
+    name: "approve",
+    outputs: [
       {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
     ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+
+export const MULTICALL_ABI = [
+  {
+    inputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "target",
+            type: "address",
+          },
+          {
+            internalType: "bytes",
+            name: "callData",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct Multicall.Call[]",
+        name: "calls",
+        type: "tuple[]",
+      },
+    ],
+    name: "aggregate",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "blockNumber",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes[]",
+        name: "returnData",
+        type: "bytes[]",
+      },
+    ],
+    stateMutability: "payable",
+    type: "function",
+  },
 ];
 
 // Contract addresses (update these with your deployed addresses)
@@ -789,7 +1233,9 @@ export const CONTRACT_ADDRESSES = {
     shibJoin: "0xd88AF8a38Fc3719668FEae8477A0aeA584Ac69A5", // NEW: Working ShibJoin
     daiJoin: "0xEae2f180ad117A407A595D31782e66D0dA727967",
     dogeToken: "0xba2ae424d960c26247dd6c32edc70b295c744c43",
-    shibToken: "0x2859e4544c4bb03966803b044a93563bd2d0dd4d"
+    shibToken: "0x2859e4544c4bb03966803b044a93563bd2d0dd4d",
+    pot: "0x29A4Fd1E443ab056B09988bd96A6BA567c95D745",
+    multicall: "0x4a286608f9945365D8AAeE6de6a94A509CB946D4",
   },
   // BSC Testnet addresses (update with actual deployed addresses)
   bscTestnet: {
@@ -800,14 +1246,16 @@ export const CONTRACT_ADDRESSES = {
     shibJoin: "0xd88AF8a38Fc3719668FEae8477A0aeA584Ac69A5", // NEW: Working ShibJoin
     daiJoin: "0xEae2f180ad117A407A595D31782e66D0dA727967",
     dogeToken: "0xba2ae424d960c26247dd6c32edc70b295c744c43",
-    shibToken: "0x2859e4544c4bb03966803b044a93563bd2d0dd4d"
-  }
+    shibToken: "0x2859e4544c4bb03966803b044a93563bd2d0dd4d",
+    pot: "0x29A4Fd1E443ab056B09988bd96A6BA567c95D745",
+    multicall: "0x4a286608f9945365D8AAeE6de6a94A509CB946D4",
+  },
 };
 
 // Collateral types
 export const COLLATERAL_TYPES = {
   DOGE: ethers.encodeBytes32String("DOGE-A"),
-  SHIB: ethers.encodeBytes32String("SHIB-A")
+  SHIB: ethers.encodeBytes32String("SHIB-A"),
 };
 
 // Constants
