@@ -12,7 +12,7 @@ const { ethers } = require("hardhat");
  */
 
 async function main() {
-  const user = process.env.USER || "0x3263343c30107ec252C88C2718a1512089845D07";
+  const user = process.env.USER || "0xD1F1CC33b06cF00884E4F74A2Bc8f2B11863A64B";
 
   // Resolve DaiJoin address dynamically (env > new-dai-join-address.json > fallback)
   const fs = require('fs');

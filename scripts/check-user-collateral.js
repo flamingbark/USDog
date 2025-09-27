@@ -4,7 +4,7 @@ async function main() {
     console.log("🔍 Checking User Collateral Balance...\n");
 
     // You'll need to replace this with your actual wallet address
-    const userAddress = "0x3263343c30107ec252C88C2718a1512089845D07"; // Replace with your wallet address
+    const userAddress = "0xD1F1CC33b06cF00884E4F74A2Bc8f2B11863A64B"; // Replace with your wallet address
     
     const addresses = {
         vat: "0xE22Ef9a84844a3D8a6Fd04607045F19d722A43Be",

@@ -1,0 +1,5 @@
+.env
+frontendnew/.env.local
+node_modules/
+artifacts/
+cache/
