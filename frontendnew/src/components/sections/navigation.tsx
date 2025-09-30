@@ -61,7 +61,7 @@ const Navigation = () => {
                 <Link href="/docs">Docs</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="https://github.com/your-org/your-repo" target="_blank" rel="noopener noreferrer">Github</Link>
+                <Link href="https://github.com/flamingbark/USDog" target="_blank" rel="noopener noreferrer">Github</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link href="https://t.me/usdog_bark" target="_blank" rel="noopener noreferrer">Telegram</Link>

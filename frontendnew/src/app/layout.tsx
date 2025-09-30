@@ -47,7 +47,7 @@ export default function RootLayout({
               <span>©USDog - All rights reserved.</span>
               <nav className="flex gap-4">
                 <a href="/docs" className="hover:text-foreground">Docs</a>
-                <a href="https://github.com/your-org/your-repo" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">Github</a>
+                <a href="https://github.com/flamingbark/USDog" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">Github</a>
                 <a href="https://t.me/usdog_bark" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">Telegram</a>
               </nav>
             </div>
