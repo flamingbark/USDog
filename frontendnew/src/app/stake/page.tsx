@@ -55,7 +55,8 @@ export default function StakePage() {
       setWithdrawAmount("");
     } catch (error) {
       console.error("Withdraw failed:", error);
-      alert(`Withdraw failed: ${error.message || error}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      alert(`Withdraw failed: ${errorMessage}`);
     }
   };
 

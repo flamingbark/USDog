@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
   output: 'export',
   // Safer for static hosts (S3, CF Pages, etc.)
   trailingSlash: true,
+  // Base path for GitHub Pages deployment
+  basePath: process.env.NODE_ENV === 'production' ? '/USDog' : '',
 
   images: {
     // next/image optimization is not available on static export
