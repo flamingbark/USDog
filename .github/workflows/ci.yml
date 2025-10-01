@@ -40,7 +40,7 @@ jobs:
       - name: Run frontend build
         run: |
           cd frontendnew
-          npm run build
+          NODE_ENV=production npm run build
 
   deploy:
     if: github.ref == 'refs/heads/main'
@@ -63,7 +63,7 @@ jobs:
       - name: Build frontend
         run: |
           cd frontendnew
-          npm run build
+          NODE_ENV=production npm run build
       - name: Add .nojekyll file
         run: touch ./frontendnew/out/.nojekyll
 
@@ -72,3 +72,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./frontendnew/out
+           publish_branch: main
+           destination_dir: docs
