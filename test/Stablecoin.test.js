@@ -35,9 +35,9 @@ describe("USDog Stablecoin System", function () {
         [signers.deployer, signers.user1, signers.user2] = await ethers.getSigners();
 
         // Constants
-        constants.DOGE_ILK = ethers.encodeBytes32String("DOGE-A");
-        constants.SHIB_ILK = ethers.encodeBytes32String("SHIB-A");
-        constants.chainId = (await ethers.provider.getNetwork()).chainId;
+        constants.DOGE_ILK = "0x444f47452d410000000000000000000000000000000000000000000000000000"; // "DOGE-A" as bytes32
+        constants.SHIB_ILK = "0x534849422d410000000000000000000000000000000000000000000000000000"; // "SHIB-A" as bytes32
+        constants.chainId = 56; // BSC mainnet chainId
 
         // ===============================
         // Deploy all contracts
@@ -46,65 +46,81 @@ describe("USDog Stablecoin System", function () {
         // Core system
         const Vat = await ethers.getContractFactory("Vat");
         contracts.vat = await Vat.deploy();
+        await contracts.vat.waitForDeployment();
 
         const StableCoin = await ethers.getContractFactory("StableCoin");
         contracts.stablecoin = await StableCoin.deploy(constants.chainId);
+        await contracts.stablecoin.waitForDeployment();
 
         const Spot = await ethers.getContractFactory("Spot");
-        contracts.spot = await Spot.deploy(contracts.vat.address);
+        contracts.spot = await Spot.deploy(contracts.vat.target);
+        await contracts.spot.waitForDeployment();
 
         // Mock tokens for testing
         const MockDoge = await ethers.getContractFactory("MockDoge");
         contracts.doge = await MockDoge.deploy();
+        await contracts.doge.waitForDeployment();
 
         const MockShib = await ethers.getContractFactory("MockShib");
         contracts.shib = await MockShib.deploy();
+        await contracts.shib.waitForDeployment();
 
         // Price feeds
         const DogePriceFeed = await ethers.getContractFactory("DogePriceFeed");
         contracts.dogePriceFeed = await DogePriceFeed.deploy();
+        await contracts.dogePriceFeed.waitForDeployment();
 
         const ShibPriceFeed = await ethers.getContractFactory("ShibPriceFeed");
         contracts.shibPriceFeed = await ShibPriceFeed.deploy();
+        await contracts.shibPriceFeed.waitForDeployment();
 
         // Join adapters
         const DogeJoin = await ethers.getContractFactory("DogeJoin");
-        contracts.dogeJoin = await DogeJoin.deploy(contracts.vat.address, contracts.doge.address);
+        contracts.dogeJoin = await DogeJoin.deploy(contracts.vat.target, contracts.doge.target);
+        await contracts.dogeJoin.waitForDeployment();
 
         const ShibJoin = await ethers.getContractFactory("ShibJoin");
-        contracts.shibJoin = await ShibJoin.deploy(contracts.vat.address, contracts.shib.address);
+        contracts.shibJoin = await ShibJoin.deploy(contracts.vat.target, contracts.shib.target);
+        await contracts.shibJoin.waitForDeployment();
 
         const DaiJoin = await ethers.getContractFactory("DaiJoin");
-        contracts.daiJoin = await DaiJoin.deploy(contracts.vat.address, contracts.stablecoin.address);
+        contracts.daiJoin = await DaiJoin.deploy(contracts.vat.target, contracts.stablecoin.target);
+        await contracts.daiJoin.waitForDeployment();
 
         // Liquidation system
         const Dog = await ethers.getContractFactory("Dog");
-        contracts.dog = await Dog.deploy(contracts.vat.address);
+        contracts.dog = await Dog.deploy(contracts.vat.target);
+        await contracts.dog.waitForDeployment();
 
         const LinearDecrease = await ethers.getContractFactory("LinearDecrease");
         contracts.calc = await LinearDecrease.deploy();
+        await contracts.calc.waitForDeployment();
 
         const Clipper = await ethers.getContractFactory("Clipper");
         contracts.dogeClipper = await Clipper.deploy(
-            contracts.vat.address,
-            contracts.spot.address,
-            contracts.dog.address,
+            contracts.vat.target,
+            contracts.spot.target,
+            contracts.dog.target,
             constants.DOGE_ILK
         );
+        await contracts.dogeClipper.waitForDeployment();
 
         // Economic management
         const Vow = await ethers.getContractFactory("Vow");
         contracts.vow = await Vow.deploy(
-            contracts.vat.address,
-            ethers.constants.AddressZero, // flapper
-            ethers.constants.AddressZero  // flopper
+            contracts.vat.target,
+            ethers.ZeroAddress, // flapper
+            ethers.ZeroAddress  // flopper
         );
+        await contracts.vow.waitForDeployment();
 
         const Jug = await ethers.getContractFactory("Jug");
-        contracts.jug = await Jug.deploy(contracts.vat.address);
+        contracts.jug = await Jug.deploy(contracts.vat.target);
+        await contracts.jug.waitForDeployment();
 
         const Pot = await ethers.getContractFactory("Pot");
-        contracts.pot = await Pot.deploy(contracts.vat.address);
+        contracts.pot = await Pot.deploy(contracts.vat.target);
+        await contracts.pot.waitForDeployment();
 
         // ===============================
         // System Configuration
@@ -115,13 +131,13 @@ describe("USDog Stablecoin System", function () {
         await contracts.vat.init(constants.SHIB_ILK);
 
         // Configure price feeds
-        await contracts.spot["file(bytes32,bytes32,address)"](constants.DOGE_ILK, ethers.encodeBytes32String("pip"), contracts.dogePriceFeed.address);
-        await contracts.spot["file(bytes32,bytes32,address)"](constants.SHIB_ILK, ethers.encodeBytes32String("pip"), contracts.shibPriceFeed.address);
+        await contracts.spot["file(bytes32,bytes32,address)"](constants.DOGE_ILK, "0x7069700000000000000000000000000000000000000000000000000000000000", contracts.dogePriceFeed.target);
+        await contracts.spot["file(bytes32,bytes32,address)"](constants.SHIB_ILK, "0x7069700000000000000000000000000000000000000000000000000000000000", contracts.shibPriceFeed.target);
 
         // Set liquidation ratios (150%)
         const liquidationRatio = mul(RAY, BigInt(150)) / BigInt(100);
-        await contracts.spot["file(bytes32,bytes32,uint256)"](constants.DOGE_ILK, ethers.encodeBytes32String("mat"), liquidationRatio);
-        await contracts.spot["file(bytes32,bytes32,uint256)"](constants.SHIB_ILK, ethers.encodeBytes32String("mat"), liquidationRatio);
+        await contracts.spot["file(bytes32,bytes32,uint256)"](constants.DOGE_ILK, "0x6d61740000000000000000000000000000000000000000000000000000000000", liquidationRatio);
+        await contracts.spot["file(bytes32,bytes32,uint256)"](constants.SHIB_ILK, "0x6d61740000000000000000000000000000000000000000000000000000000000", liquidationRatio);
 
         // Set debt ceilings
         const debtCeiling = mul(RAD, BigInt(1000000)); // 1M for testing
@@ -137,33 +153,33 @@ describe("USDog Stablecoin System", function () {
         // Initialize stability fees
         await contracts.jug.init(constants.DOGE_ILK);
         await contracts.jug.init(constants.SHIB_ILK);
-        await contracts.jug["file(bytes32,address)"](ethers.encodeBytes32String("vow"), contracts.vow.address);
-        await contracts.pot["file(bytes32,address)"](ethers.encodeBytes32String("vow"), contracts.vow.address);
+        await contracts.jug["file(bytes32,address)"](ethers.encodeBytes32String("vow"), contracts.vow.target);
+        await contracts.pot["file(bytes32,address)"](ethers.encodeBytes32String("vow"), contracts.vow.target);
 
         // Grant necessary permissions
-        await contracts.vat.rely(contracts.dogeJoin.address);
-        await contracts.vat.rely(contracts.shibJoin.address);
-        await contracts.vat.rely(contracts.daiJoin.address);
-        await contracts.vat.rely(contracts.dog.address);
-        await contracts.vat.rely(contracts.jug.address);
-        await contracts.vat.rely(contracts.pot.address);
-        await contracts.vat.rely(contracts.spot.address);
+        await contracts.vat.rely(contracts.dogeJoin.target);
+        await contracts.vat.rely(contracts.shibJoin.target);
+        await contracts.vat.rely(contracts.daiJoin.target);
+        await contracts.vat.rely(contracts.dog.target);
+        await contracts.vat.rely(contracts.jug.target);
+        await contracts.vat.rely(contracts.pot.target);
+        await contracts.vat.rely(contracts.spot.target);
 
-        await contracts.stablecoin.rely(contracts.daiJoin.address);
+        await contracts.stablecoin.rely(contracts.daiJoin.target);
 
         // Configure liquidation
-        await contracts.dog["file(bytes32,bytes32,address)"](constants.DOGE_ILK, ethers.encodeBytes32String("clip"), contracts.dogeClipper.address);
+        await contracts.dog["file(bytes32,bytes32,address)"](constants.DOGE_ILK, ethers.encodeBytes32String("clip"), contracts.dogeClipper.target);
         await contracts.dog["file(bytes32,bytes32,uint256)"](constants.DOGE_ILK, ethers.encodeBytes32String("chop"), mul(WAD, BigInt(110)) / BigInt(100)); // 10% penalty
         await contracts.dog["file(bytes32,bytes32,uint256)"](constants.DOGE_ILK, ethers.encodeBytes32String("hole"), mul(RAD, BigInt(100000))); // 100k limit
         // Authorize Dog to account debt in Vow during liquidations
-        await contracts.vow.rely(contracts.dog.address);
+        await contracts.vow.rely(contracts.dog.target);
 
-        await contracts.dogeClipper["file(bytes32,address)"](ethers.encodeBytes32String("calc"), contracts.calc.address);
-        await contracts.dogeClipper["file(bytes32,address)"](ethers.encodeBytes32String("vow"), contracts.vow.address);
+        await contracts.dogeClipper["file(bytes32,address)"](ethers.encodeBytes32String("calc"), contracts.calc.target);
+        await contracts.dogeClipper["file(bytes32,address)"](ethers.encodeBytes32String("vow"), contracts.vow.target);
         // Configure Dog global + vow so liquidations work
-        await contracts.dog["file(bytes32,address)"](ethers.encodeBytes32String("vow"), contracts.vow.address);
+        await contracts.dog["file(bytes32,address)"](ethers.encodeBytes32String("vow"), contracts.vow.target);
         await contracts.dog["file(bytes32,uint256)"](ethers.encodeBytes32String("Hole"), mul(RAD, BigInt(1000000)));
-        await contracts.dogeClipper.rely(contracts.dog.address);
+        await contracts.dogeClipper.rely(contracts.dog.target);
 
         // Update spot prices
         await contracts.spot.poke(constants.DOGE_ILK);
@@ -176,9 +192,9 @@ describe("USDog Stablecoin System", function () {
 
     describe("System Deployment", function () {
         it("Should deploy all contracts successfully", async function () {
-            expect(contracts.vat.address).to.not.equal(ethers.constants.AddressZero);
-            expect(contracts.stablecoin.address).to.not.equal(ethers.constants.AddressZero);
-            expect(contracts.spot.address).to.not.equal(ethers.constants.AddressZero);
+            expect(contracts.vat.target).to.not.equal(ethers.ZeroAddress);
+            expect(contracts.stablecoin.target).to.not.equal(ethers.ZeroAddress);
+            expect(contracts.spot.target).to.not.equal(ethers.ZeroAddress);
         });
 
         it("Should have correct initial configuration", async function () {
@@ -223,7 +239,7 @@ describe("USDog Stablecoin System", function () {
 
         beforeEach(async function () {
             // Approve tokens
-            await contracts.doge.connect(signers.user1).approve(contracts.dogeJoin.address, collateralAmount);
+            await contracts.doge.connect(signers.user1).approve(contracts.dogeJoin.target, collateralAmount);
         });
 
         it("Should allow depositing collateral", async function () {
@@ -264,7 +280,7 @@ describe("USDog Stablecoin System", function () {
             );
 
             // User authorizes DaiJoin to take from their Vat balance
-            await contracts.vat.connect(signers.user1).hope(contracts.daiJoin.address);
+            await contracts.vat.connect(signers.user1).hope(contracts.daiJoin.target);
             // Exit stablecoins
             await contracts.daiJoin.connect(signers.user1).exit(signers.user1.address, stablecoinAmount);
 
@@ -302,7 +318,7 @@ describe("USDog Stablecoin System", function () {
 
         beforeEach(async function () {
             // Create a CDP close to liquidation
-            await contracts.doge.connect(signers.user1).approve(contracts.dogeJoin.address, collateralAmount);
+            await contracts.doge.connect(signers.user1).approve(contracts.dogeJoin.target, collateralAmount);
             await contracts.dogeJoin.connect(signers.user1).join(signers.user1.address, collateralAmount);
             await contracts.vat.connect(signers.user1).frob(
                 constants.DOGE_ILK,
@@ -333,7 +349,7 @@ describe("USDog Stablecoin System", function () {
         const stablecoinAmount = parseEther("50");
 
         beforeEach(async function () {
-            await contracts.doge.connect(signers.user1).approve(contracts.dogeJoin.address, collateralAmount);
+            await contracts.doge.connect(signers.user1).approve(contracts.dogeJoin.target, collateralAmount);
             await contracts.dogeJoin.connect(signers.user1).join(signers.user1.address, collateralAmount);
             await contracts.vat.connect(signers.user1).frob(
                 constants.DOGE_ILK,
@@ -367,7 +383,7 @@ describe("USDog Stablecoin System", function () {
             const collateralAmount = parseEther("1000");
             const stablecoinAmount = parseEther("50");
 
-            await contracts.doge.connect(signers.user1).approve(contracts.dogeJoin.address, collateralAmount);
+            await contracts.doge.connect(signers.user1).approve(contracts.dogeJoin.target, collateralAmount);
             await contracts.dogeJoin.connect(signers.user1).join(signers.user1.address, collateralAmount);
             await contracts.vat.connect(signers.user1).frob(
                 constants.DOGE_ILK,
@@ -381,7 +397,7 @@ describe("USDog Stablecoin System", function () {
             // Now test pot operations
             await contracts.pot.drip(); // Update rate
             // User authorizes Pot to take from their Vat balance
-            await contracts.vat.connect(signers.user1).hope(contracts.pot.address);
+            await contracts.vat.connect(signers.user1).hope(contracts.pot.target);
             await contracts.pot.connect(signers.user1).join(stablecoinAmount);
 
             const pie = await contracts.pot.pie(signers.user1.address);
@@ -393,29 +409,32 @@ describe("USDog Stablecoin System", function () {
         it("Should allow emergency shutdown", async function () {
             const End = await ethers.getContractFactory("End");
             const end = await End.deploy();
+            await end.waitForDeployment();
 
             // Configure end module
-            await end["file(bytes32,address)"](ethers.encodeBytes32String("vat"), contracts.vat.address);
-            await end["file(bytes32,address)"](ethers.encodeBytes32String("dog"), contracts.dog.address);
-            await end["file(bytes32,address)"](ethers.encodeBytes32String("vow"), contracts.vow.address);
-            await end["file(bytes32,address)"](ethers.encodeBytes32String("jug"), contracts.jug.address);
-            await end["file(bytes32,address)"](ethers.encodeBytes32String("pot"), contracts.pot.address);
-            await end["file(bytes32,address)"](ethers.encodeBytes32String("spot"), contracts.spot.address);
+            await end["file(bytes32,address)"](ethers.encodeBytes32String("vat"), contracts.vat.target);
+            await end["file(bytes32,address)"](ethers.encodeBytes32String("dog"), contracts.dog.target);
+            await end["file(bytes32,address)"](ethers.encodeBytes32String("vow"), contracts.vow.target);
+            await end["file(bytes32,address)"](ethers.encodeBytes32String("jug"), contracts.jug.target);
+            await end["file(bytes32,address)"](ethers.encodeBytes32String("pot"), contracts.pot.target);
+            await end["file(bytes32,address)"](ethers.encodeBytes32String("spot"), contracts.spot.target);
 
-            await contracts.vat.rely(end.address);
-            await contracts.dog.rely(end.address);
-            await contracts.jug.rely(end.address);
-            await contracts.pot.rely(end.address);
-            await contracts.spot.rely(end.address);
-            await contracts.vow.rely(end.address);
+            await contracts.vat.rely(end.target);
+            await contracts.dog.rely(end.target);
+            await contracts.jug.rely(end.target);
+            await contracts.pot.rely(end.target);
+            await contracts.spot.rely(end.target);
+            await contracts.vow.rely(end.target);
 
             // Wire mock flapper/flopper for Vow so cage() doesn't call zero addresses
             const MockFlapper = await ethers.getContractFactory("MockFlapper");
             const flapper = await MockFlapper.deploy();
-            await contracts.vow["file(bytes32,address)"](ethers.encodeBytes32String("flapper"), flapper.address);
+            await flapper.waitForDeployment();
+            await contracts.vow["file(bytes32,address)"](ethers.encodeBytes32String("flapper"), flapper.target);
             const MockFlopper = await ethers.getContractFactory("MockFlopper");
             const flopper = await MockFlopper.deploy();
-            await contracts.vow["file(bytes32,address)"](ethers.encodeBytes32String("flopper"), flopper.address);
+            await flopper.waitForDeployment();
+            await contracts.vow["file(bytes32,address)"](ethers.encodeBytes32String("flopper"), flopper.target);
 
             // Trigger emergency shutdown
             await end["cage()"]();
@@ -429,15 +448,16 @@ describe("USDog Stablecoin System", function () {
         it("Should execute multiple calls in one transaction", async function () {
             const Multicall = await ethers.getContractFactory("Multicall");
             const multicall = await Multicall.deploy();
+            await multicall.waitForDeployment();
 
             // Create calls array
             const calls = [
                 {
-                    target: contracts.dogePriceFeed.address,
+                    target: contracts.dogePriceFeed.target,
                     callData: contracts.dogePriceFeed.interface.encodeFunctionData("peek")
                 },
                 {
-                    target: contracts.shibPriceFeed.address,
+                    target: contracts.shibPriceFeed.target,
                     callData: contracts.shibPriceFeed.interface.encodeFunctionData("peek")
                 }
             ];
