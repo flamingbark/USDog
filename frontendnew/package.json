@@ -21,8 +21,6 @@
     ]
   },
   "dependencies": {
-  },
-  "dependencies": {
     "@babel/parser": "^7.28.4",
     "@headlessui/react": "^2.2.8",
     "@heroicons/react": "^2.2.0",
