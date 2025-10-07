@@ -66,6 +66,11 @@ jobs:
           cd frontendnew
           NODE_ENV=production npm run build
 
+      - name: Check build output
+        run: |
+          ls -la frontendnew/
+          ls -la frontendnew/out/ || echo "out directory not found"
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
