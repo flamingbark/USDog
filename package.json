@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "cd frontendnew && npm run dev",
+    "verify:deployed": "node scripts/check-deployed-code.cjs",
+    "validate:frontend": "node scripts/validate-frontend-addresses.cjs",
     "check-permissions": "node scripts/check-shib-permissions.js",
     "bot:doge-shib": "node scripts/doge-shib-bot.js"
   },

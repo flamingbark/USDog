@@ -1229,8 +1229,9 @@ export const CONTRACT_ADDRESSES = {
     vat: "0xE22Ef9a84844a3D8a6Fd04607045F19d722A43Be",
     stablecoin: "0xb1abd2a64b829596d7afefca31a6c984b5afaafb",
     spot: "0x5f029d9b48162a809919e595c2b712f5cb039d19",
-    dogeJoin: "0x794eE9786535056D8858DfbF98cEafCA5ca23526", // NEW: Working DogeJoin
-    shibJoin: "0xd88AF8a38Fc3719668FEae8477A0aeA584Ac69A5", // NEW: Working ShibJoin
+    // Sourced from deployments/mainnet-addresses.json
+    dogeJoin: "0x09FA30f1397c9d208C3c7e7A99Ca7B4d274141c7",
+    shibJoin: "0x5E03607Ce6ca0382c054e5E978a3d31A57758Df3",
     daiJoin: "0xEae2f180ad117A407A595D31782e66D0dA727967",
     dogeToken: "0xba2ae424d960c26247dd6c32edc70b295c744c43",
     shibToken: "0x2859e4544c4bb03966803b044a93563bd2d0dd4d",
@@ -1242,8 +1243,9 @@ export const CONTRACT_ADDRESSES = {
     vat: "0xE22Ef9a84844a3D8a6Fd04607045F19d722A43Be",
     stablecoin: "0xb1abd2a64b829596d7afefca31a6c984b5afaafb",
     spot: "0x5f029d9b48162a809919e595c2b712f5cb039d19",
-    dogeJoin: "0x794eE9786535056D8858DfbF98cEafCA5ca23526", // NEW: Working DogeJoin
-    shibJoin: "0xd88AF8a38Fc3719668FEae8477A0aeA584Ac69A5", // NEW: Working ShibJoin
+    // Placeholder: update with testnet deployments when available
+    dogeJoin: "0x09FA30f1397c9d208C3c7e7A99Ca7B4d274141c7",
+    shibJoin: "0x5E03607Ce6ca0382c054e5E978a3d31A57758Df3",
     daiJoin: "0xEae2f180ad117A407A595D31782e66D0dA727967",
     dogeToken: "0xba2ae424d960c26247dd6c32edc70b295c744c43",
     shibToken: "0x2859e4544c4bb03966803b044a93563bd2d0dd4d",
