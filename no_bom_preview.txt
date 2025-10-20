@@ -1,0 +1,126 @@
+﻿import { expect } from "chai";
+import hardhat from "hardhat";
+const { ethers } = hardhat;
+import { parseEther } from "ethers";
+
+// Helper functions for BigInt math (simplified for testing)
+function mul(a, b) {
+    return a * b / BigInt("1000000000000000000000000000"); // RAY
+}
+
+function div(a, b) {
+    return a * BigInt("1000000000000000000000000000") / b;
+}
+
+function add(a, b) {
+    return a + b;
+}
+
+function sub(a, b) {
+    return a - b;
+}
+
+describe("USDog Stablecoin System", function () {
+    let contracts = {};
+    let signers = {};
+    let constants = {};
+
+    // Test constants
+    const RAY = BigInt("1000000000000000000000000000"); // 10^27
+    const WAD = BigInt("1000000000000000000"); // 10^18
+    const RAD = BigInt("1000000000000000000000000000000000000000000000"); // 10^45
+
+    beforeEach(async function () {
+        // Get signers
+        [signers.deployer, signers.user1, signers.user2] = await ethers.getSigners();
+
+        // Constants
+        constants.DOGE_ILK = "0x444f47452d410000000000000000000000000000000000000000000000000000"; // "DOGE-A" as bytes32
+        constants.SHIB_ILK = "0x534849422d410000000000000000000000000000000000000000000000000000"; // "SHIB-A" as bytes32
+        constants.chainId = 56; // BSC mainnet chainId
+
+        // ===============================
+        // Deploy all contracts
+        // ===============================
+
+        // Core system
+        const Vat = await ethers.getContractFactory("Vat");
+        contracts.vat = await Vat.deploy();
+        await contracts.vat.waitForDeployment();
+
+        const StableCoin = await ethers.getContractFactory("StableCoin");
+        contracts.stablecoin = await StableCoin.deploy(constants.chainId);
+        await contracts.stablecoin.waitForDeployment();
+
+        const Spot = await ethers.getContractFactory("Spot");
+        contracts.spot = await Spot.deploy(contracts.vat.target);
+        await contracts.spot.waitForDeployment();
+
+        // Mock tokens for testing
+        const MockDoge = await ethers.getContractFactory("MockDoge");
+        contracts.doge = await MockDoge.deploy();
+        await contracts.doge.waitForDeployment();
+
+        const MockShib = await ethers.getContractFactory("MockShib");
+        contracts.shib = await MockShib.deploy();
+        await contracts.shib.waitForDeployment();
+
+        // Price feeds
+        const DogePriceFeed = await ethers.getContractFactory("DogePriceFeed");
+        contracts.dogePriceFeed = await DogePriceFeed.deploy();
+        await contracts.dogePriceFeed.waitForDeployment();
+
+        const ShibPriceFeed = await ethers.getContractFactory("ShibPriceFeed");
+        contracts.shibPriceFeed = await ShibPriceFeed.deploy();
+        await contracts.shibPriceFeed.waitForDeployment();
+
+        // Join adapters
+        const DogeJoin = await ethers.getContractFactory("DogeJoin");
+        contracts.dogeJoin = await DogeJoin.deploy(contracts.vat.target, contracts.doge.target);
+        await contracts.dogeJoin.waitForDeployment();
+
+        const ShibJoin = await ethers.getContractFactory("ShibJoin");
+        contracts.shibJoin = await ShibJoin.deploy(contracts.vat.target, contracts.shib.target);
+        await contracts.shibJoin.waitForDeployment();
+
+        const DaiJoin = await ethers.getContractFactory("DaiJoin");
+        contracts.daiJoin = await DaiJoin.deploy(contracts.vat.target, contracts.stablecoin.target);
+        await contracts.daiJoin.waitForDeployment();
+
+        // Liquidation system
+        const Dog = await ethers.getContractFactory("Dog");
+        contracts.dog = await Dog.deploy(contracts.vat.target);
+        await contracts.dog.waitForDeployment();
+
+        const LinearDecrease = await ethers.getContractFactory("LinearDecrease");
+        contracts.calc = await LinearDecrease.deploy();
+        await contracts.calc.waitForDeployment();
+
+        const Clipper = await ethers.getContractFactory("Clipper");
+        contracts.dogeClipper = await Clipper.deploy(
+            contracts.vat.target,
+            contracts.spot.target,
+            contracts.dog.target,
+            constants.DOGE_ILK
+        );
+        await contracts.dogeClipper.waitForDeployment();
+
+        // Economic management
+        const Vow = await ethers.getContractFactory("Vow");
+        contracts.vow = await Vow.deploy(
+            contracts.vat.target,
+            ethers.ZeroAddress, // flapper
+            ethers.ZeroAddress  // flopper
+        );
+        await contracts.vow.waitForDeployment();
+
+        const Jug = await ethers.getContractFactory("Jug");
+        contracts.jug = await Jug.deploy(contracts.vat.target);
+        await contracts.jug.waitForDeployment();
+
+        const Pot = await ethers.getContractFactory("Pot");
+        contracts.pot = await Pot.deploy(contracts.vat.target);
+        await contracts.pot.waitForDeployment();
+
+        // ===============================
+        // S

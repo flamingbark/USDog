@@ -1,8 +1,8 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\Calc.sol": {
-      "lastModificationDate": 1758091438866,
+    "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\contracts\\Calc.sol": {
+      "lastModificationDate": 1759202357585,
       "contentHash": "35d1311845190ed224e0e2318bc8d6c7",
       "sourceName": "contracts/Calc.sol",
       "solcConfig": {
@@ -41,8 +41,8 @@
         "StairstepExponentialDecrease"
       ]
     },
-    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\lib\\DSMath.sol": {
-      "lastModificationDate": 1758090954292,
+    "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\contracts\\lib\\DSMath.sol": {
+      "lastModificationDate": 1759202357611,
       "contentHash": "053cadb2a38320ef99c0d66fa28dc75c",
       "sourceName": "contracts/lib/DSMath.sol",
       "solcConfig": {
@@ -77,8 +77,8 @@
         "DSMath"
       ]
     },
-    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\Vow.sol": {
-      "lastModificationDate": 1758091514351,
+    "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\contracts\\Vow.sol": {
+      "lastModificationDate": 1759202357607,
       "contentHash": "00924d4da14bc52d55c313132caf6951",
       "sourceName": "contracts/Vow.sol",
       "solcConfig": {
@@ -119,8 +119,8 @@
         "Vow"
       ]
     },
-    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\Vat.sol": {
-      "lastModificationDate": 1758844312647,
+    "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\contracts\\Vat.sol": {
+      "lastModificationDate": 1759202357606,
       "contentHash": "78859b7f9fc36f80f5915df9eef3c408",
       "sourceName": "contracts/Vat.sol",
       "solcConfig": {
@@ -157,8 +157,8 @@
         "Vat"
       ]
     },
-    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\Spot.sol": {
-      "lastModificationDate": 1758844431079,
+    "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\contracts\\Spot.sol": {
+      "lastModificationDate": 1759202357603,
       "contentHash": "a3ed7a4cbb673c052a8d65fa81b6fbe3",
       "sourceName": "contracts/Spot.sol",
       "solcConfig": {
@@ -197,8 +197,8 @@
         "VatLike"
       ]
     },
-    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\PriceFeed.sol": {
-      "lastModificationDate": 1758589842114,
+    "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\contracts\\PriceFeed.sol": {
+      "lastModificationDate": 1759202357603,
       "contentHash": "4cb3357604455b3813bef0bb94535552",
       "sourceName": "contracts/PriceFeed.sol",
       "solcConfig": {
@@ -242,8 +242,44 @@
         "ShibPriceFeed"
       ]
     },
-    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\Pot.sol": {
-      "lastModificationDate": 1758674238325,
+    "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\node_modules\\@api3\\contracts\\interfaces\\IApi3ReaderProxy.sol": {
+      "lastModificationDate": 1759300708248,
+      "contentHash": "7d49678dacf644268b7dd51bfecccc98",
+      "sourceName": "@api3/contracts/interfaces/IApi3ReaderProxy.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IApi3ReaderProxy"
+      ]
+    },
+    "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\contracts\\Pot.sol": {
+      "lastModificationDate": 1759202357601,
       "contentHash": "467a3d081f46d220c054d6e735d759c8",
       "sourceName": "contracts/Pot.sol",
       "solcConfig": {
@@ -281,8 +317,8 @@
         "VatLike"
       ]
     },
-    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\Multicall.sol": {
-      "lastModificationDate": 1758091664588,
+    "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\contracts\\Multicall.sol": {
+      "lastModificationDate": 1759202357598,
       "contentHash": "9073aa21ac2dc36bde2a00bd3083c077",
       "sourceName": "contracts/Multicall.sol",
       "solcConfig": {
@@ -319,8 +355,8 @@
         "Multicall"
       ]
     },
-    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\Jug.sol": {
-      "lastModificationDate": 1758091481887,
+    "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\contracts\\Jug.sol": {
+      "lastModificationDate": 1759202357597,
       "contentHash": "5a355a1be5540852558c40ab43f2962b",
       "sourceName": "contracts/Jug.sol",
       "solcConfig": {
@@ -358,8 +394,8 @@
         "VatLike"
       ]
     },
-    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\Join.sol": {
-      "lastModificationDate": 1758621841825,
+    "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\contracts\\Join.sol": {
+      "lastModificationDate": 1759202357596,
       "contentHash": "6a9127d95818cd5da721768343a00e6f",
       "sourceName": "contracts/Join.sol",
       "solcConfig": {
@@ -402,9 +438,9 @@
         "VatLike"
       ]
     },
-    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\FlashLiquidator.sol": {
-      "lastModificationDate": 1758657634042,
-      "contentHash": "6b514d83606e1c3f696f35f296175e43",
+    "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\contracts\\FlashLiquidator.sol": {
+      "lastModificationDate": 1759202357594,
+      "contentHash": "500904566d21bf8c8acba29befa5345a",
       "sourceName": "contracts/FlashLiquidator.sol",
       "solcConfig": {
         "version": "0.8.19",
@@ -447,8 +483,8 @@
         "VatLike"
       ]
     },
-    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\End.sol": {
-      "lastModificationDate": 1758091613318,
+    "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\contracts\\End.sol": {
+      "lastModificationDate": 1759202357591,
       "contentHash": "a3c0a913fd9fd8c16d27b4ba14ee8f27",
       "sourceName": "contracts/End.sol",
       "solcConfig": {
@@ -494,8 +530,8 @@
         "VowLike"
       ]
     },
-    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\Dog.sol": {
-      "lastModificationDate": 1758091282589,
+    "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\contracts\\Dog.sol": {
+      "lastModificationDate": 1759202357589,
       "contentHash": "bfdc120e92f07c4aa00b89ec262de8f6",
       "sourceName": "contracts/Dog.sol",
       "solcConfig": {
@@ -535,8 +571,8 @@
         "VowLike"
       ]
     },
-    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\Clip.sol": {
-      "lastModificationDate": 1758091405477,
+    "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\contracts\\Clip.sol": {
+      "lastModificationDate": 1759202357588,
       "contentHash": "5b1df7d7bcc195c88237eb4e63a3dee4",
       "sourceName": "contracts/Clip.sol",
       "solcConfig": {
@@ -579,8 +615,8 @@
         "VowLike"
       ]
     },
-    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\mocks\\MockAuctions.sol": {
-      "lastModificationDate": 1758674894719,
+    "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\contracts\\mocks\\MockAuctions.sol": {
+      "lastModificationDate": 1759202357613,
       "contentHash": "55e157a3fff043a687b413a24f7dde0d",
       "sourceName": "contracts/mocks/MockAuctions.sol",
       "solcConfig": {
@@ -616,8 +652,8 @@
         "MockFlopper"
       ]
     },
-    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\mocks\\MockToken.sol": {
-      "lastModificationDate": 1758091803506,
+    "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\contracts\\mocks\\MockToken.sol": {
+      "lastModificationDate": 1759202357614,
       "contentHash": "46cb33299fd690da7a74416524aab2d7",
       "sourceName": "contracts/mocks/MockToken.sol",
       "solcConfig": {
@@ -654,8 +690,8 @@
         "MockToken"
       ]
     },
-    "C:\\Users\\terex\\Documents\\Stablecoin\\contracts\\StableCoin.sol": {
-      "lastModificationDate": 1758091999066,
+    "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\contracts\\StableCoin.sol": {
+      "lastModificationDate": 1759202357605,
       "contentHash": "035724a86f76083a213192abd090a38d",
       "sourceName": "contracts/StableCoin.sol",
       "solcConfig": {
@@ -688,42 +724,6 @@
       ],
       "artifacts": [
         "StableCoin"
-      ]
-    },
-    "C:\\Users\\terex\\Documents\\Stablecoin\\node_modules\\@api3\\contracts\\interfaces\\IApi3ReaderProxy.sol": {
-      "lastModificationDate": 1758835645901,
-      "contentHash": "16ae0a0132d146c0cd20374404ba7dee",
-      "sourceName": "@api3/contracts/interfaces/IApi3ReaderProxy.sol",
-      "solcConfig": {
-        "version": "0.8.19",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "viaIR": true,
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "IApi3ReaderProxy"
       ]
     }
   }
