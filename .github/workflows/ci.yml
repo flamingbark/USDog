@@ -1,5 +1,10 @@
 name: CI
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 on:
   push:
     branches: [main]
@@ -47,6 +52,12 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: lint-and-test
+    concurrency:
+      group: 'pages'
+      cancel-in-progress: true
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -61,19 +72,24 @@ jobs:
           cd frontendnew
           npm ci
 
-      - name: Build frontend
+      - name: Build frontend (static export)
         run: |
           cd frontendnew
           NODE_ENV=production npm run build
 
-      - name: Check build output
+      - name: Verify build output
         run: |
-          ls -la frontendnew/
-          ls -la frontendnew/out/ || echo "out directory not found"
+          test -d frontendnew/out
+          echo "Static site ready in frontendnew/out"
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontendnew/out
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: frontendnew/out
-          publish_branch: gh-pages
+        id: deployment
+        uses: actions/deploy-pages@v4
