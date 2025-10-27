@@ -60,7 +60,10 @@ const Navigation = () => {
               <DropdownMenuItem asChild>
                 <Link href="/docs">Docs</Link>
               </DropdownMenuItem>
-               
+              <DropdownMenuItem asChild>
+                <Link href="/contracts">Contracts</Link>
+              </DropdownMenuItem>
+              
               <DropdownMenuItem asChild>
                 <Link href="https://github.com/flamingbark/USDog" target="_blank" rel="noopener noreferrer">Github</Link>
               </DropdownMenuItem>
