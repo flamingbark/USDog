@@ -7,7 +7,7 @@ import Navigation from "@/components/sections/navigation";
 import RiskDisclaimer from "@/components/sections/risk-disclaimer";
 
 export const metadata: Metadata = {
-  title: "USDog Stablecoin",
+  title: "🐕 USDog Stablecoin",
   description: "Decentralized stablecoin backed by DOGE and SHIB collateral",
 };
 
