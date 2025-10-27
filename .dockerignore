@@ -1,0 +1,10 @@
+node_modules
+artifacts
+cache
+.git
+frontendnew/.next
+frontendnew/node_modules
+frontendnew/.env.local
+.env
+*.log
+

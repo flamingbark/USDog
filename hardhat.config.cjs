@@ -5,6 +5,7 @@ config();
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
+  sourcify: { enabled: true },
   solidity: {
     compilers: [
       {
@@ -48,15 +49,15 @@ module.exports = {
       type: "http",
       url: process.env.BSC_RPC_URL || "https://bsc-dataseed1.binance.org/",
       chainId: 56,
-      gasPrice: 15000000000, // Reduced from 20 to 15 gwei
-      gas: 2000000, // Set explicit gas limit
+      gasPrice: 5000000000, // Reduced from 20 to 15 gwei
+      gas: 3500000, // Set explicit gas limit
       accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
     bscTestnet: {
       type: "http",
       url: process.env.BSC_TESTNET_RPC_URL || "https://data-seed-prebsc-1-s1.binance.org:8545/",
       chainId: 97,
-      gasPrice: 20000000000,
+      gasPrice: 5000000000,
       accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     }
   },

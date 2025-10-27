@@ -73,10 +73,10 @@ const config = {
     PANCAKE_ROUTER: '0x10ED43C718714eb63d5aA57B78B54704E256024E',
     WBNB: '0xbb4CdB9CBd36B01bD1cBaeBF2De08d9173bc095c',
 
-    // Flash loan pools (need to be updated with actual addresses)
+    // Flash loan pools (wired to PancakeSwap V2 pairs on BSC)
     FLASH_LOAN_POOLS: {
-        'DOGE-WBNB': '0x0000000000000000000000000000000000000001',
-        'SHIB-WBNB': '0x0000000000000000000000000000000000000002',
+        'DOGE-WBNB': '0xac109C8025F272414fd9e2faA805a583708A017f',
+        'SHIB-WBNB': '0x6b7b3523a6660a5fcE3c28E1536CC8dd8D57f7E0',
         'WBNB-USDT': '0x36696169C63e42cd08ce11f5deeBbCeBae652050',
         'WBNB-BUSD': '0x7EFaEf62fDdCCa950418312c6C91Aef321375A00'
     },

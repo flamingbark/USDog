@@ -50,8 +50,8 @@ async function main() {
     addresses.daiJoin
   );
 
-  await flashLiquidator.deployed();
-  const flashLiquidatorAddress = flashLiquidator.address;
+  await flashLiquidator.waitForDeployment();
+  const flashLiquidatorAddress = await flashLiquidator.getAddress();
 
   console.log("FlashLiquidator deployed to:", flashLiquidatorAddress);
 

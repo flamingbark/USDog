@@ -37,7 +37,7 @@
   },
   "liquidation": {
     "calc": "0x97acD6e75a93De8eB1b84E944Ac6319710F04636",
-    "flashLiquidator": "0x3dEB59255e499DA3A76cecF8B4C828b2Cc01deC3"
+    "flashLiquidator": "0x1F440fB7dab4D3b27617f8e5b4855B476FDd95a2"
   },
   "external": {
     "pancakeRouter": "0x10ED43C718714eb63d5aA57B78B54704E256024E",

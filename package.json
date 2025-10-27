@@ -6,7 +6,8 @@
     "verify:deployed": "node scripts/check-deployed-code.cjs",
     "validate:frontend": "node scripts/validate-frontend-addresses.cjs",
     "check-permissions": "node scripts/check-shib-permissions.js",
-    "bot:doge-shib": "node scripts/doge-shib-bot.js"
+    "bot:doge-shib": "node scripts/doge-shib-bot.js",
+    "watch:liquidations": "node scripts/usdog-liquidation-watcher.js"
   },
   "dependencies": {
     "@api3/contracts": "^27.0.0",

@@ -162,8 +162,8 @@ async function main() {
   // For this test, we'll use a placeholder flash loan pool
   // In practice, you'd use a real PancakeSwap pair address
   const flashLoanPools = {
-    "DOGE-WBNB": "0x0000000000000000000000000000000000000001",
-    "SHIB-WBNB": "0x0000000000000000000000000000000000000002",
+    "DOGE-WBNB": "0xac109C8025F272414fd9e2faA805a583708A017f",
+    "SHIB-WBNB": "0x6b7b3523a6660a5fcE3c28E1536CC8dd8D57f7E0",
     "WBNB-DAI": "0x36696169C63e42cd08ce11f5deeBbCeBae652050" // Real WBNB-BUSD pair as fallback
   };
 

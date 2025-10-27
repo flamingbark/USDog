@@ -439,8 +439,8 @@
       ]
     },
     "C:\\Users\\terex\\Documents\\stablecoin\\USDog\\contracts\\FlashLiquidator.sol": {
-      "lastModificationDate": 1759202357594,
-      "contentHash": "500904566d21bf8c8acba29befa5345a",
+      "lastModificationDate": 1761250334965,
+      "contentHash": "c2fb9b13e297afa0a39c8a5d025caff9",
       "sourceName": "contracts/FlashLiquidator.sol",
       "solcConfig": {
         "version": "0.8.19",
@@ -475,6 +475,7 @@
       "artifacts": [
         "ClipperLike",
         "DaiJoinLike",
+        "DogLike",
         "FlashLiquidator",
         "GemJoinLike",
         "IERC20",

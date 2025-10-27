@@ -152,6 +152,19 @@ TOKENS=DOGE DRY_RUN=true node scripts/doge-shib-bot.js
 
 # Monitor only SHIB positions
 TOKENS=SHIB DRY_RUN=true node scripts/doge-shib-bot.js
+
+### 4. USDog Liquidation Watcher (Events)
+
+Run a lightweight watcher that listens for Dog `Bark` events and triggers the on-chain flash liquidator automatically when a USDog liquidation starts:
+
+```bash
+FLASH_LIQUIDATOR=0x... npm run watch:liquidations
+```
+
+Notes:
+- Uses `deployments/mainnet-addresses.json` for `Dog` and ILK setup, and `deployments/flash-liquidator.json` for the liquidator address if `FLASH_LIQUIDATOR` is not set.
+- Requires valid flash loan pool addresses in `deployments/mainnet-addresses.json.flashLoan.pools` for `DOGE-WBNB` and `SHIB-WBNB`.
+- Set `MAX_GAS_PRICE_GWEI` env var (default 25 gwei) to cap gas price.
 ```
 
 ## Bot Configuration

@@ -16,6 +16,8 @@ interface IERC20 {
 interface VatLike {
     function move(address, address, uint256) external;
     function dai(address) external view returns (uint256);
+    function hope(address) external;
+    function nope(address) external;
 }
 
 interface DaiJoinLike {
@@ -31,6 +33,11 @@ interface GemJoinLike {
 
 interface ClipperLike {
     function take(uint256, uint256, uint256, address, bytes calldata) external;
+}
+
+interface DogLike {
+    function bark(bytes32 ilk, address urn, address kpr) external returns (uint256 id);
+    function ilks(bytes32) external view returns (address clip, uint256 chop, uint256 hole, uint256 dirt);
 }
 
 interface IPancakeRouter {
@@ -75,12 +82,18 @@ contract FlashLiquidator {
     // --- Supported Tokens ---
     mapping(address => bool) public supportedCollateral;
     mapping(address => address) public collateralJoins; // collateral -> join contract
+    mapping(address => bytes32) public ilks;            // collateral -> ilk id (e.g., "DOGE-A")
+
+    // --- Core Liquidation Contracts ---
+    DogLike public dog;
 
     // --- Flash Loan State ---
     struct FlashLoanData {
         address borrower;
         address collateralToken;
         address collateralJoin;
+        bytes32 ilk;
+        address clipper;
         uint256 repayAmount;
         uint256 expectedCollateral;
         bool inFlashLoan;
@@ -120,6 +133,15 @@ contract FlashLiquidator {
         delete collateralJoins[token];
     }
 
+    function setDog(address dog_) external auth {
+        dog = DogLike(dog_);
+    }
+
+    function setIlk(address token, bytes32 ilk_) external auth {
+        require(supportedCollateral[token], "FlashLiquidator/unknown-collateral");
+        ilks[token] = ilk_;
+    }
+
     // --- Main Flash Liquidation Function ---
     function liquidateMemeCollateral(
         address borrower,
@@ -155,18 +177,27 @@ contract FlashLiquidator {
 
         require(supportedCollateral[collateralToken], "FlashLiquidator/unsupported-collateral");
 
+        // Resolve ilk and clipper
+        bytes32 ilk = ilks[collateralToken];
+        require(ilk != bytes32(0), "FlashLiquidator/ilk-not-set");
+        require(address(dog) != address(0), "FlashLiquidator/dog-not-set");
+        (address clipper,, ,) = dog.ilks(ilk);
+        require(clipper != address(0), "FlashLiquidator/clipper-not-found");
+
         // Set up flash loan state
         flashLoanState = FlashLoanData({
             borrower: borrower,
             collateralToken: collateralToken,
             collateralJoin: collateralJoins[collateralToken],
+            ilk: ilk,
+            clipper: clipper,
             repayAmount: repayAmount,
             expectedCollateral: 0, // Will be calculated
             inFlashLoan: true
         });
 
-        // Calculate how much DAI we need for the liquidation
-        uint256 flashAmount = repayAmount / 1e18; // Convert from rad to wad
+        // Calculate how much DAI (wad) we need for the liquidation from rad
+        uint256 flashAmount = repayAmount / DSMath.RAY; // Convert from rad (1e45) to wad (1e18)
 
         // Initiate flash loan by calling swap with data
         bytes memory data = abi.encode(borrower, collateralToken, repayAmount);
@@ -273,6 +304,7 @@ contract FlashLiquidator {
         // slice: collateral amount we're receiving
 
         require(flashLoanState.inFlashLoan, "FlashLiquidator/not-in-flash-loan");
+        require(msg.sender == flashLoanState.clipper, "FlashLiquidator/unauthorized-clipper");
 
         // Extract collateral from the contract and convert to external tokens
         GemJoinLike collateralJoin = GemJoinLike(flashLoanState.collateralJoin);
@@ -310,14 +342,29 @@ contract FlashLiquidator {
     }
 
     // --- Helper Functions ---
-    function executeClipperLiquidation(address borrower, address collateralToken, uint256 repayAmount) internal {
-        // This would interact with the Dog/Clipper system to perform liquidation
-        // For now, this is a placeholder - would need specific clipper address and auction ID
-        // The actual implementation would call Dog.bark() then Clipper.take()
+    function executeClipperLiquidation(address borrower, address collateralToken, uint256 /*repayAmount*/) internal {
+        // Kick auction via Dog and immediately take from Clipper
+        bytes32 ilk = flashLoanState.ilk;
+        require(ilk != bytes32(0), "FlashLiquidator/ilk-not-set");
+        require(address(dog) != address(0), "FlashLiquidator/dog-not-set");
 
-        // Placeholder: assume we somehow trigger the liquidation and get collateral
-        // In real implementation, this would be more complex and require integration
-        // with the specific Dog/Clipper contracts for this collateral type
+        // Authorize clipper to move our internal DAI in Vat during take()
+        (address clipper,, ,) = dog.ilks(ilk);
+        require(clipper == flashLoanState.clipper && clipper != address(0), "FlashLiquidator/clipper-mismatch");
+        vat.hope(clipper);
+
+        // Start liquidation
+        uint256 id = dog.bark(ilk, borrower, address(this));
+
+        // Take as much as possible at any acceptable price cap (very high)
+        uint256 amt = type(uint256).max;
+        uint256 maxPrice = type(uint256).max; // ray
+
+        // Data can be empty; clipper will still callback clipperCall
+        ClipperLike(clipper).take(id, amt, maxPrice, address(this), bytes(""));
+
+        // Revoke authorization as hygiene
+        vat.nope(clipper);
     }
 
     function getWBNBForDAI(uint256 daiAmount) internal view returns (uint256) {
