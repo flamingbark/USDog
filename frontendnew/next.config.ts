@@ -3,13 +3,16 @@ import path from "node:path";
 
 const LOADER = path.resolve(__dirname, 'src/visual-edits/component-tagger-loader.js');
 
+const isGhProjectPages = process.env.GITHUB_PAGES === 'true';
+
 const nextConfig: NextConfig = {
   // Generate a fully static site (no Node server required)
   output: 'export',
   // Safer for static hosts (S3, CF Pages, etc.)
   trailingSlash: true,
-  // Base path for GitHub Pages deployment
-  basePath: process.env.NODE_ENV === 'production' ? '/USDog' : '',
+  // Base path only when deploying to a GitHub Project Pages path
+  // For custom domains (e.g., usdog.us) leave it empty so site is served at root
+  basePath: isGhProjectPages ? '/USDog' : '',
 
   images: {
     // next/image optimization is not available on static export
