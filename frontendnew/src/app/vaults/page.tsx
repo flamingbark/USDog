@@ -1,8 +1,22 @@
 "use client";
 
 import Link from "next/link";
+import { CONTRACTS_DISABLED, DISABLE_NOTE } from "@/lib/appConfig";
 
 export default function VaultsPage() {
+  if (CONTRACTS_DISABLED) {
+    return (
+      <div className="container mx-auto min-h-[70vh] px-4 py-12">
+        <div className="mx-auto max-w-3xl rounded-2xl border border-border bg-card p-8 shadow">
+          <h1 className="text-2xl font-bold">Interactions Disabled</h1>
+          <p className="mt-2 text-sm text-muted-foreground">{DISABLE_NOTE}</p>
+          <div className="mt-4">
+            <Link href="/contracts" className="text-primary underline">View deployed addresses</Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="container mx-auto min-h-[70vh] px-4 py-12">
       <div className="mx-auto max-w-5xl">

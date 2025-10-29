@@ -30,6 +30,7 @@ export default async function ContractsPage() {
   const mainnet = await readJson<MainnetAddresses>('mainnet-addresses.json');
   const all = await readJson<AllContracts>('all-contracts.json');
   const flash = await readJson<{ flashLiquidator: string }>('flash-liquidator.json');
+  const disabled = true;
 
   const core = mainnet.core;
   const col = mainnet.collateral;
@@ -87,7 +88,12 @@ export default async function ContractsPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">
-      <h1 className="mb-6 text-3xl font-bold">Deployed Contracts (BSC)</h1>
+      <h1 className="mb-2 text-3xl font-bold">Deployed Contracts (BSC)</h1>
+      {disabled && (
+        <p className="mb-8 text-red-600">
+          Note: These contracts are temporarily disabled and will be redeployed once DAO membership is finalized.
+        </p>
+      )}
       <p className="mb-8 text-muted-foreground">All relevant contracts for the USDog system with quick links to BscScan.</p>
       <div className="space-y-8">
         {items.map((sec) => (
@@ -113,4 +119,3 @@ export default async function ContractsPage() {
     </div>
   );
 }
-

@@ -15,8 +15,10 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { CONTRACTS_DISABLED, DISABLE_NOTE } from "@/lib/appConfig";
 
 export default function StakePage() {
+  const disabled = CONTRACTS_DISABLED;
   const {
     userBalance,
     walletBalance,
@@ -82,7 +84,13 @@ export default function StakePage() {
   return (
     <main className="min-h-[60vh] bg-[#f3f1f7]">
       <div className="container mx-auto px-4 py-16">
-        <div className="mx-auto max-w-4xl">
+        {disabled && (
+          <div className="mx-auto max-w-3xl mb-6 rounded-2xl border border-border bg-card p-6 text-center shadow">
+            <h2 className="text-xl font-semibold">Interactions Disabled</h2>
+            <p className="mt-1 text-sm text-muted-foreground">{DISABLE_NOTE}</p>
+          </div>
+        )}
+        <div className={`mx-auto max-w-4xl ${disabled ? 'pointer-events-none opacity-50' : ''}`}>
           {/* Header */}
           <div className="mb-8 text-center">
             <h1 className="text-4xl font-bold text-foreground mb-4">

@@ -5,6 +5,7 @@ import Script from "next/script";
 import { Providers } from "@/components/providers";
 import Navigation from "@/components/sections/navigation";
 import RiskDisclaimer from "@/components/sections/risk-disclaimer";
+import MaintenanceBanner from "@/components/sections/maintenance-banner";
 
 export const metadata: Metadata = {
   title: "🐕 USDog Stablecoin",
@@ -20,6 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased min-h-screen flex flex-col">
         <Providers>
+          <MaintenanceBanner />
           <ErrorReporter />
           <Script
             src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/scripts//route-messenger.js"

@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from 'next/navigation';
 import CollateralSelection from '@/components/sections/collateral-selection';
+import { CONTRACTS_DISABLED, DISABLE_NOTE } from "@/lib/appConfig";
 
 const SUPPORTED = {
   SHIB: {
@@ -27,6 +28,16 @@ const SUPPORTED = {
 type CollateralKey = keyof typeof SUPPORTED;
 
 export default function OpenVaultPage() {
+  if (CONTRACTS_DISABLED) {
+    return (
+      <div className="container mx-auto min-h-[70vh] px-4 py-12">
+        <div className="mx-auto max-w-3xl rounded-2xl border border-border bg-card p-8 text-center shadow">
+          <h1 className="text-2xl font-bold">Interactions Disabled</h1>
+          <p className="mt-2 text-sm text-muted-foreground">{DISABLE_NOTE}</p>
+        </div>
+      </div>
+    );
+  }
   return (
     <Suspense fallback={<div className="container mx-auto min-h-[70vh] px-4 py-12">Loading...</div>}>
       <OpenVaultInner />
