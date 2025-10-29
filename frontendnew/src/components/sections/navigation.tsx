@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const navLinks = [
-  { name: "GET USDog", href: "/vaults", active: true },
+  { name: "GET USDog", href: "/vaults/open?collateral=SHIB", active: true },
   { name: "STAKE", href: "/stake", active: false },
 ];
 
