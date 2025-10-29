@@ -6,9 +6,10 @@ import { Providers } from "@/components/providers";
 import Navigation from "@/components/sections/navigation";
 import RiskDisclaimer from "@/components/sections/risk-disclaimer";
 import MaintenanceBanner from "@/components/sections/maintenance-banner";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "🐕 USDog Stablecoin",
+  title: "Ã°Å¸Ââ€¢ USDog Stablecoin",
   description: "Decentralized stablecoin backed by DOGE and SHIB collateral",
 };
 
@@ -46,8 +47,10 @@ export default function RootLayout({
               <RiskDisclaimer />
             </div>
             <div className="container mx-auto px-4 py-8 text-sm text-muted-foreground flex flex-col sm:flex-row items-center justify-between gap-3">
-              <span>©USDog - All rights reserved.</span>
-              <nav className="flex gap-4">
+              <span>Ã‚Â©USDog - All rights reserved.</span>
+              <nav className="flex gap-4 items-center">
+                <a href="https://four.meme/token/0xc3e960668fe56f235e0653e20787b2fc3af54444?code=N87R2SDZDJCV" target="_blank" rel="noopener noreferrer"><Button className="rounded-full px-3 py-1">🐕 USDog Memecoin</Button></a>
+                
                 <a href="/docs" className="hover:text-foreground">Docs</a>
                 <a href="https://github.com/flamingbark/USDog" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">Github</a>
                 <a href="https://t.me/usdog_bark" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">Telegram</a>

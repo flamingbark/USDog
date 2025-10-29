@@ -46,7 +46,12 @@ const Navigation = () => {
         </div>
 
         <div className="flex items-center gap-x-4">
-          <DropdownMenu>
+
+                  <Link href="https://four.meme/token/0xc3e960668fe56f235e0653e20787b2fc3af54444?code=N87R2SDZDJCV" target="_blank" rel="noopener noreferrer">
+            <Button className="rounded-full px-4 py-2 font-button" variant="default">
+              🐕 USDog Memecoin
+            </Button>
+          </Link>          <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
@@ -98,4 +103,5 @@ const Navigation = () => {
 };
 
 export default Navigation;
+
 
