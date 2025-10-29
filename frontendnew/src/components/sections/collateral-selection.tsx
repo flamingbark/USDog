@@ -6,6 +6,7 @@ import { ethers } from 'ethers';
 import { useStablecoin } from '@/hooks/useStablecoin';
 import { CONTRACT_ADDRESSES, ILK_DOGE, ILK_SHIB } from '@/lib/contracts';
 import { useChainId } from 'wagmi';
+import { CONTRACTS_DISABLED, DISABLE_NOTE } from '@/lib/appConfig';
 
 interface CollateralSelectionProps {
   initialCollateral?: 'DOGE' | 'SHIB'
@@ -591,9 +592,17 @@ const CollateralSelection = ({ initialCollateral }: CollateralSelectionProps) =>
     );
   }
 
+  const disabled = CONTRACTS_DISABLED;
+
   return (
-    <div className="w-full max-w-[732px] mx-auto p-6 bg-white/60 rounded-2xl border border-black/10 shadow-[0_4px_20px_rgba(0,0,0,0.08)] backdrop-blur-sm">
-      <div className="space-y-6">
+    <>
+      {disabled && (
+        <div className="w-full max-w-[732px] mx-auto mb-4 p-4 rounded-2xl border border-border bg-card text-center shadow">
+          <p className="text-sm text-muted-foreground">{DISABLE_NOTE}</p>
+        </div>
+      )}
+      <div className={`w-full max-w-[732px] mx-auto p-6 bg-white/60 rounded-2xl border border-black/10 shadow-[0_4px_20px_rgba(0,0,0,0.08)] backdrop-blur-sm ${disabled ? 'pointer-events-none opacity-50' : ''}`}>
+        <div className="space-y-6">
 
 
         {/* Collateral Selection */}
@@ -886,6 +895,7 @@ const CollateralSelection = ({ initialCollateral }: CollateralSelectionProps) =>
 
       </div>
     </div>
+    </>
   );
 };
 
